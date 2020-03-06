@@ -3,7 +3,7 @@ PROJECT(ThermocoupleCalculator)
 
 INCLUDE(FetchContent)
 
-SET(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -O0 -fprofile-arcs -ftest-coverage")
 
 FETCHCONTENT_DECLARE(catch2
@@ -16,7 +16,7 @@ IF(NOT catch2_POPULATED)
     ADD_SUBDIRECTORY(${catch2_SOURCE_DIR} ${catch2_BINARY_DIR})
 ENDIF()
 
-ADD_EXECUTABLE(${PROJECT_NAME} source/main.cpp source/TypeConversion.cpp)
+ADD_EXECUTABLE(${PROJECT_NAME} source/main.cpp)
 
 TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PRIVATE include)
 
