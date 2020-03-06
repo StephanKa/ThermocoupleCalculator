@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.15)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.11)
 PROJECT(ThermocoupleCalculator)
 
 INCLUDE(FetchContent)
@@ -10,7 +10,12 @@ SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
 FETCHCONTENT_DECLARE(catch2
                      GIT_REPOSITORY https://github.com/catchorg/Catch2.git
                      GIT_TAG v2.11.1)
-FETCHCONTENT_MAKEAVAILABLE(catch2)
+FETCHCONTENT_GETPROPERTIES(catch2)
+
+IF(NOT catch2_POPULATED)
+    FETCHCONTENT_POPULATE(catch2)
+    ADD_SUBDIRECTORY(${catch2_SOURCE_DIR} ${catch2_BINARY_DIR})
+ENDIF()
 
 ADD_EXECUTABLE(${PROJECT_NAME} source/main.cpp source/TypeConversion.cpp)
 
