@@ -107,11 +107,15 @@ jobs:
             - cmake
       env:
         - MATRIX_EVAL="CC=clang-9 CXX=clang++-9"
-
+before_install:
+  - pip install --user cpp-coveralls
 before_script:
   - eval "${MATRIX_EVAL}"
 script:
   - mkdir build && cd build
   - cmake ..
   - make
-  - make test
+  - make test && cd test
+  - ./Test
+after_success:
+  - coveralls --exclude lib --exclude tests --gcov-options '\-lp'
