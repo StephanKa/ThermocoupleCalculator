@@ -1,5 +1,4 @@
 #pragma once
-#include <VoltageTemperatureConversion.h>
 #include <array>
 
 struct TypeN
@@ -20,20 +19,6 @@ struct TypeN
             static constexpr double upperLimit = 0.0;
             static constexpr std::array<double, 9> coefficient = {0.000000000000E+00, 0.261591059620E-01, 0.109574842280E-04, -0.938411115540E-07,
                 -0.464120397590E-10, -0.263033577160E-11, -0.226534380030E-13, -0.760893007910E-16, -0.934196678350E-19};
-        };
-
-        static double calculate(double const degrees)
-        {
-            double voltage = 0.0;
-            if (degrees >= Negative::lowerLimit && degrees <= Negative::upperLimit)
-            {
-                voltage = ::calculateVoltage<decltype(Negative::coefficient)>(Negative::coefficient, degrees);
-            }
-            else if (degrees >= Positive::lowerLimit && degrees <= Positive::upperLimit)
-            {
-                voltage = ::calculateVoltage<decltype(Positive::coefficient)>(Positive::coefficient, degrees);
-            }
-            return voltage;
         };
     };
 
@@ -57,20 +42,6 @@ struct TypeN
             static constexpr double error = -0.02;
             static constexpr std::array<double, 10> coefficient = {
                 0.00000E+00, 3.86896E+01, -1.08267E+00, 4.70205E-02, -2.12169E-06, -1.17272E-04, 5.39280E-06, -7.98156E-08, 0.00000E+00, 0.00000E+00};
-        };
-
-        static double calculate(double const voltage)
-        {
-            double degrees = 0.0;
-            if (voltage >= Negative::lowerLimit && voltage <= Negative::upperLimit)
-            {
-                degrees = ::calculateTemperature<decltype(Negative::coefficient)>(Negative::coefficient, voltage);
-            }
-            else if (voltage >= Positive::lowerLimit && voltage <= Positive::upperLimit)
-            {
-                return ::calculateTemperature<decltype(Positive::coefficient)>(Positive::coefficient, voltage);
-            }
-            return degrees;
         };
     };
 };

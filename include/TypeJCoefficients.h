@@ -1,9 +1,9 @@
 #pragma once
-#include <VoltageTemperatureConversion.h>
 #include <array>
 
 struct TypeJ
 {
+
     struct TemperatureToVoltage
     {
         struct Positive
@@ -20,20 +20,6 @@ struct TypeJ
             static constexpr double upperLimit = 760.0;
             static constexpr std::array<double, 9> coefficient = {0.000000000000E+00, 0.503811878150E-01, 0.304758369300E-04, -0.856810657200E-07,
                 0.132281952950E-09, -0.170529583370E-12, 0.209480906970E-15, -0.125383953360E-18, 0.156317256970E-22};
-        };
-
-        static double calculate(double const degrees)
-        {
-            double voltage = 0.0;
-            if (degrees >= Negative::lowerLimit && degrees <= Negative::upperLimit)
-            {
-                voltage = ::calculateVoltage<decltype(Negative::coefficient)>(Negative::coefficient, degrees);
-            }
-            else if (degrees >= Positive::lowerLimit && degrees <= Positive::upperLimit)
-            {
-                voltage = ::calculateVoltage<decltype(Positive::coefficient)>(Positive::coefficient, degrees);
-            }
-            return voltage;
         };
     };
 
@@ -57,20 +43,6 @@ struct TypeJ
             static constexpr double error = -0.04;
             static constexpr std::array<double, 9> coefficient = {
                 0.000000E+00, 1.978425E+01, -2.001204E-01, 1.036969E-02, -2.549687E-04, 3.585153E-06, -5.344285E-08, 5.099890E-10, 0.000000E+00};
-        };
-
-        static double calculate(double const voltage)
-        {
-            double degrees = 0.0;
-            if (voltage >= Negative::lowerLimit && voltage <= Negative::upperLimit)
-            {
-                degrees = ::calculateTemperature<decltype(Negative::coefficient)>(Negative::coefficient, voltage);
-            }
-            else if (voltage >= Positive::lowerLimit && voltage <= Positive::upperLimit)
-            {
-                return ::calculateTemperature<decltype(Positive::coefficient)>(Positive::coefficient, voltage);
-            }
-            return degrees;
         };
     };
 };

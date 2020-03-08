@@ -1,5 +1,4 @@
 #pragma once
-#include <VoltageTemperatureConversion.h>
 #include <array>
 
 struct TypeT
@@ -21,20 +20,6 @@ struct TypeT
             static constexpr std::array<double, 15> coefficient = {0.000000000000E+00, 0.387481063640E-01, 0.441944343470E-04, 0.118443231050E-06,
                 0.200329735540E-07, 0.901380195590E-09, 0.226511565930E-10, 0.360711542050E-12, 0.384939398830E-14, 0.282135219250E-16, 0.142515947790E-18,
                 0.487686622860E-21, 0.107955392700E-23, 0.139450270620E-26, 0.797951539270E-30};
-        };
-
-        static double calculate(double const degrees)
-        {
-            double voltage = 0.0;
-            if (degrees >= Negative::lowerLimit && degrees <= Negative::upperLimit)
-            {
-                voltage = ::calculateVoltage<decltype(Negative::coefficient)>(Negative::coefficient, degrees);
-            }
-            else if (degrees >= Positive::lowerLimit && degrees <= Positive::upperLimit)
-            {
-                voltage = ::calculateVoltage<decltype(Positive::coefficient)>(Positive::coefficient, degrees);
-            }
-            return voltage;
         };
     };
 
@@ -58,20 +43,6 @@ struct TypeT
             static constexpr double error = -0.03;
             static constexpr std::array<double, 8> coefficient = {
                 0.000000E+00, 2.592800E+01, -7.602961E-01, 4.637791E-02, -2.165394E-03, 6.048144E-05, -7.293422E-07, 0.000000E+00};
-        };
-
-        static double calculate(double const voltage)
-        {
-            double degrees = 0.0;
-            if (voltage >= Negative::lowerLimit && voltage <= Negative::upperLimit)
-            {
-                degrees = ::calculateTemperature<decltype(Negative::coefficient)>(Negative::coefficient, voltage);
-            }
-            else if (voltage >= Positive::lowerLimit && voltage <= Positive::upperLimit)
-            {
-                return ::calculateTemperature<decltype(Positive::coefficient)>(Positive::coefficient, voltage);
-            }
-            return degrees;
         };
     };
 };

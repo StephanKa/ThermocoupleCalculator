@@ -4,7 +4,9 @@ PROJECT(ThermocoupleCalculator)
 INCLUDE(FetchContent)
 
 SET(CMAKE_CXX_STANDARD 17)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -O0 -fprofile-arcs -ftest-coverage")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
+SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fprofile-arcs -ftest-coverage")
+SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 FETCHCONTENT_DECLARE(catch2
                      GIT_REPOSITORY https://github.com/catchorg/Catch2.git

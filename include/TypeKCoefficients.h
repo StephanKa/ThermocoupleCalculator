@@ -1,6 +1,6 @@
 #pragma once
-#include <VoltageTemperatureConversion.h>
 #include <array>
+#include <cmath>
 
 struct TypeK
 {
@@ -24,24 +24,13 @@ struct TypeK
                 -0.163226974860e-22};
         };
 
-        static double calculate(double const degrees)
-        {
-            double voltage = 0.0;
-            if (degrees >= Negative::lowerLimit && degrees <= Negative::upperLimit)
+        static constexpr auto calculate = [](double& ret, double const value) {
+            ret = Positive::coefficient[0];
+            for (int index = 1; index < static_cast<int>(Positive::coefficient.size()); index++)
             {
-                voltage = ::calculateVoltage<decltype(Negative::coefficient)>(Negative::coefficient, degrees);
+                ret += Positive::coefficient.at(index) * std::pow(value, static_cast<double>(index));
             }
-            else if (degrees >= Positive::lowerLimit && degrees <= Positive::upperLimit)
-            {
-                voltage = Positive::coefficient[0];
-                for (int index = 1; index < static_cast<int>(Positive::coefficient.size()); index++)
-                {
-                    voltage += Positive::coefficient.at(index) * std::pow(degrees, static_cast<double>(index));
-                }
-                voltage +=
-                    Positive::alphaCoefficient.at(0) * std::exp(Positive::alphaCoefficient.at(1) * std::pow(degrees - Positive::alphaCoefficient.at(2), 2));
-            }
-            return voltage;
+            ret += Positive::alphaCoefficient.at(0) * std::exp(Positive::alphaCoefficient.at(1) * std::pow(value - Positive::alphaCoefficient.at(2), 2));
         };
     };
 
@@ -65,20 +54,6 @@ struct TypeK
             static constexpr double error = -0.05;
             static constexpr std::array<double, 10> coefficient = {
                 0.000000E+00, 2.508355E+01, 7.860106E-02, -2.503131E-01, 8.315270E-02, -1.228034E-02, 9.804036E-04, -4.413030E-05, 1.057734E-06, -1.052755E-08};
-        };
-
-        static double calculate(double const voltage)
-        {
-            double degrees = 0.0;
-            if (voltage >= Negative::lowerLimit && voltage <= Negative::upperLimit)
-            {
-                degrees = ::calculateTemperature<decltype(Negative::coefficient)>(Negative::coefficient, voltage);
-            }
-            else if (voltage >= Positive::lowerLimit && voltage <= Positive::upperLimit)
-            {
-                degrees = ::calculateTemperature<decltype(Positive::coefficient)>(Positive::coefficient, voltage);
-            }
-            return degrees;
         };
     };
 };
