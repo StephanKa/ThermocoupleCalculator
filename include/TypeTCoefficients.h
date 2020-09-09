@@ -1,9 +1,10 @@
 #pragma once
+#include <VoltageTemperatureConversion.h>
 #include <array>
 
 struct TypeT
 {
-    struct TemperatureToVoltage
+    struct [[maybe_unused]] TemperatureToVoltage
     {
         struct Positive
         {
@@ -23,7 +24,7 @@ struct TypeT
         };
     };
 
-    struct VoltageToTemperature
+    struct [[maybe_unused]] VoltageToTemperature
     {
         struct Negative
         {

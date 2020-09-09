@@ -1,10 +1,10 @@
 #pragma once
+#include <VoltageTemperatureConversion.h>
 #include <array>
-#include <cmath>
 
 struct TypeK
 {
-    struct TemperatureToVoltage
+    struct [[maybe_unused]] TemperatureToVoltage
     {
         struct Positive
         {
@@ -24,17 +24,28 @@ struct TypeK
                 -0.163226974860e-22};
         };
 
-        static constexpr auto calculate = [](double& ret, double const value) {
-            ret = Positive::coefficient[0];
-            for (int index = 1; index < static_cast<int>(Positive::coefficient.size()); index++)
+        constexpr static double calculate(double const degrees)
+        {
+            double voltage = 0.0;
+            if (degrees >= Negative::lowerLimit && degrees <= Negative::upperLimit)
             {
-                ret += Positive::coefficient.at(index) * std::pow(value, static_cast<double>(index));
+                voltage = calculation<decltype(Negative::coefficient), Conversion::Voltage>(Negative::coefficient, degrees);
             }
-            ret += Positive::alphaCoefficient.at(0) * std::exp(Positive::alphaCoefficient.at(1) * std::pow(value - Positive::alphaCoefficient.at(2), 2));
-        };
+            else if (degrees >= Positive::lowerLimit && degrees <= Positive::upperLimit)
+            {
+                voltage = Positive::coefficient[0];
+                for (size_t index = 1; index < Positive::coefficient.size(); index++)
+                {
+                    voltage += Positive::coefficient.at(index) * std::pow(degrees, static_cast<double>(index));
+                }
+                voltage +=
+                    Positive::alphaCoefficient.at(0) * std::exp(Positive::alphaCoefficient.at(1) * std::pow(degrees - Positive::alphaCoefficient.at(2), 2));
+            }
+            return voltage;
+        }
     };
 
-    struct VoltageToTemperature
+    struct [[maybe_unused]] VoltageToTemperature
     {
         struct Negative
         {

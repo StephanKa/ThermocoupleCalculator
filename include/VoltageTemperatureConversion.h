@@ -1,68 +1,40 @@
 #pragma once
-#include <TypeBCoefficients.h>
-#include <TypeECoefficients.h>
-#include <TypeJCoefficients.h>
-#include <TypeKCoefficients.h>
-#include <TypeNCoefficients.h>
-#include <TypeRCoefficients.h>
-#include <TypeSCoefficients.h>
-#include <TypeTCoefficients.h>
 #include <cmath>
 
-template <typename T>
-double temperature(T& coefficient, double const voltage)
+enum class Conversion
 {
-    double result = coefficient[0];
-    for (int index = 1; index < static_cast<int>(coefficient.size()); index++)
-    {
-        result += coefficient.at(index) * std::pow(voltage, static_cast<double>(index));
-    }
-    return result;
-}
+    Voltage,
+    Temperature
+};
 
-template <typename T>
-double voltage(T& coefficient, double const voltage)
+template <typename T, Conversion TargetConversion>
+constexpr auto calculation(T& coefficient, double const voltage) -> double
 {
     double result = 0.0;
-    for (int index = 0; index < static_cast<int>(coefficient.size()); index++)
+    size_t index = 0;
+    if constexpr (TargetConversion == Conversion::Temperature)
+    {
+        result = coefficient[0];
+        index = 1;
+    }
+    for (; index < coefficient.size(); index++)
     {
         result += coefficient.at(index) * std::pow(voltage, static_cast<double>(index));
     }
     return result;
 }
 
-template <typename ThermocoupleType, typename Conversion>
-static double calculate(double const value)
+template <class Positive, class Negative, Conversion Type>
+constexpr auto conversion(double const voltage) -> double
 {
-    double ret = 0.0;
-    if (value >= Conversion::Negative::lowerLimit && value <= Conversion::Negative::upperLimit)
+    double degrees = 0.0;
+    if (voltage >= Negative::lowerLimit && voltage <= Negative::upperLimit)
     {
-        if constexpr (std::is_same_v<Conversion, typename ThermocoupleType::TemperatureToVoltage>)
-        {
-            ret = voltage<decltype(Conversion::Negative::coefficient)>(Conversion::Negative::coefficient, value);
-        }
-        else if constexpr (std::is_same_v<Conversion, typename ThermocoupleType::VoltageToTemperature>)
-        {
-            ret = temperature<decltype(Conversion::Negative::coefficient)>(Conversion::Negative::coefficient, value);
-        }
+        degrees = calculation<decltype(Negative::coefficient), Type>(Negative::coefficient, voltage);
     }
-    else if (value >= Conversion::Positive::lowerLimit && value <= Conversion::Positive::upperLimit)
+    else if (voltage >= Positive::lowerLimit && voltage <= Positive::upperLimit)
     {
-        if constexpr (std::is_same_v<Conversion, typename ThermocoupleType::TemperatureToVoltage>)
-        {
-            if constexpr (std::is_same_v<ThermocoupleType, TypeK>)
-            {
-                Conversion::calculate(ret, value);
-            }
-            else
-            {
-                ret = voltage<decltype(Conversion::Positive::coefficient)>(Conversion::Positive::coefficient, value);
-            }
-        }
-        else if constexpr (std::is_same_v<Conversion, typename ThermocoupleType::VoltageToTemperature>)
-        {
-            ret = temperature<decltype(Conversion::Positive::coefficient)>(Conversion::Positive::coefficient, value);
-        }
+        degrees = calculation<decltype(Positive::coefficient), Type>(Positive::coefficient, voltage);
     }
-    return ret;
+    return degrees;
 }
