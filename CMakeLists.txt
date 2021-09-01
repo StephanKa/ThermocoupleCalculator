@@ -1,25 +1,75 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.11)
-PROJECT(ThermocoupleCalculator)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.15)
 
-INCLUDE(FetchContent)
+# Set the project name to your project name, my project isn't very descriptive
+PROJECT(ThermocoupleCalculator CXX)
+INCLUDE(cmake/StandardProjectSettings.cmake)
+INCLUDE(cmake/PreventInSourceBuilds.cmake)
 
-SET(CMAKE_CXX_STANDARD 17)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
-SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fprofile-arcs -ftest-coverage")
-SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
+# Link this 'library' to set the c++ standard / compile-time options requested
+ADD_LIBRARY(project_options INTERFACE)
+TARGET_COMPILE_FEATURES(project_options INTERFACE cxx_std_20)
 
-FETCHCONTENT_DECLARE(catch2
-                     GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-                     GIT_TAG v2.11.1)
-FETCHCONTENT_GETPROPERTIES(catch2)
-
-IF(NOT catch2_POPULATED)
-    FETCHCONTENT_POPULATE(catch2)
-    ADD_SUBDIRECTORY(${catch2_SOURCE_DIR} ${catch2_BINARY_DIR})
+IF(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+    OPTION(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
+    IF(ENABLE_BUILD_WITH_TIME_TRACE)
+        TARGET_COMPILE_OPTIONS(project_options INTERFACE -ftime-trace)
+    ENDIF()
 ENDIF()
 
-ADD_EXECUTABLE(${PROJECT_NAME} source/main.cpp)
+# Link this 'library' to use the warnings specified in CompilerWarnings.cmake
+ADD_LIBRARY(project_warnings INTERFACE)
 
-TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PRIVATE include)
+# enable cache system
+INCLUDE(cmake/Cache.cmake)
 
-ADD_SUBDIRECTORY(test)
+# standard compiler warnings
+INCLUDE(cmake/CompilerWarnings.cmake)
+SET_PROJECT_WARNINGS(project_warnings)
+
+# sanitizer options if supported by compiler
+INCLUDE(cmake/Sanitizers.cmake)
+ENABLE_SANITIZERS(project_options)
+
+# enable doxygen
+INCLUDE(cmake/Doxygen.cmake)
+ENABLE_DOXYGEN()
+
+# allow for static analysis options
+INCLUDE(cmake/StaticAnalyzers.cmake)
+
+OPTION(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
+OPTION(ENABLE_TESTING "Enable Test Builds" ON)
+
+# Very basic PCH example
+OPTION(ENABLE_PCH "Enable Precompiled Headers" OFF)
+IF(ENABLE_PCH)
+    # This sets a global PCH parameter, each project will build its own PCH, which is a good idea if any #define's change
+    #
+    # consider breaking this out per project as necessary
+    TARGET_PRECOMPILE_HEADERS(
+            project_options
+            INTERFACE
+            <vector>
+            <utility>)
+ENDIF()
+
+# Set up some extra Conan dependencies based on our needs before loading Conan
+SET(CONAN_EXTRA_REQUIRES "")
+SET(CONAN_EXTRA_OPTIONS "")
+
+INCLUDE(cmake/Conan.cmake)
+RUN_CONAN()
+
+IF(ENABLE_TESTING)
+    ENABLE_TESTING()
+    MESSAGE("Building Tests. Be sure to check out test/constexpr_tests for constexpr testing")
+    ADD_SUBDIRECTORY(test)
+ENDIF()
+
+ADD_SUBDIRECTORY(source)
+
+OPTION(ENABLE_UNITY "Enable Unity builds of projects" OFF)
+IF(ENABLE_UNITY)
+    # Add for any project you want to apply unity builds for
+    SET_TARGET_PROPERTIES(TypeRegisterExample PROPERTIES UNITY_BUILD ON)
+ENDIF()
