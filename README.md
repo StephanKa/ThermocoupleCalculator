@@ -21,7 +21,7 @@ Supported thermocouple types are:
 
 ## Example
 
-This example can be found under *source/main.cpp*
+This example can be found under **source/main.cpp**
 
 ```c++
 #include "TypeConversion.h"
