@@ -7,8 +7,7 @@ enum class Conversion
     Temperature
 };
 
-template <typename T, Conversion TargetConversion>
-constexpr auto calculation(T& coefficient, double const voltage) -> double
+template<typename T, Conversion TargetConversion> constexpr auto calculation(T& coefficient, double const voltage) -> double
 {
     double result = 0.0;
     size_t index = 0;
@@ -24,8 +23,7 @@ constexpr auto calculation(T& coefficient, double const voltage) -> double
     return result;
 }
 
-template <class Positive, class Negative, Conversion Type>
-constexpr auto conversion(double const voltage) -> double
+template<class Positive, class Negative, Conversion Type> constexpr auto conversion(double const voltage) -> double
 {
     double degrees = 0.0;
     if (voltage >= Negative::lowerLimit && voltage <= Negative::upperLimit)

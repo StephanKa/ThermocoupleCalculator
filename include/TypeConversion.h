@@ -9,15 +9,13 @@
 #include <TypeTCoefficients.h>
 #include <vector>
 
-
-template <typename T, Conversion Target>
-auto calculate(double const value) -> double
+template<typename T, Conversion Target> auto calculate(double const value) -> double
 {
     if constexpr (std::is_same_v<T, TypeB> && Target == Conversion::Temperature)
     {
         return T::VoltageToTemperature::calculate(value);
     }
-    else if constexpr ((std::is_same_v<T, TypeK> || std::is_same_v<T, TypeB>)&&Target == Conversion::Voltage)
+    else if constexpr ((std::is_same_v<T, TypeK> || std::is_same_v<T, TypeB>) &&Target == Conversion::Voltage)
     {
         return T::TemperatureToVoltage::calculate(value);
     }
@@ -34,8 +32,7 @@ auto calculate(double const value) -> double
     }
 }
 
-template <typename T, Conversion ConversionTarget>
-auto conversion(std::vector<double> const& values) -> std::vector<double>
+template<typename T, Conversion ConversionTarget> auto conversion(std::vector<double> const& values) -> std::vector<double>
 {
     std::vector<double> result;
     result.reserve(values.size());

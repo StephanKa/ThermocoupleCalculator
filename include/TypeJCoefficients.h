@@ -18,8 +18,15 @@ struct TypeJ
         {
             static constexpr double lowerLimit = -270.0;
             static constexpr double upperLimit = 760.0;
-            static constexpr std::array<double, 9> coefficient = {0.000000000000E+00, 0.503811878150E-01, 0.304758369300E-04, -0.856810657200E-07,
-                0.132281952950E-09, -0.170529583370E-12, 0.209480906970E-15, -0.125383953360E-18, 0.156317256970E-22};
+            static constexpr std::array<double, 9> coefficient = {0.000000000000E+00,
+                                                                  0.503811878150E-01,
+                                                                  0.304758369300E-04,
+                                                                  -0.856810657200E-07,
+                                                                  0.132281952950E-09,
+                                                                  -0.170529583370E-12,
+                                                                  0.209480906970E-15,
+                                                                  -0.125383953360E-18,
+                                                                  0.156317256970E-22};
         };
     };
 
