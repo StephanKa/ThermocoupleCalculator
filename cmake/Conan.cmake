@@ -16,6 +16,7 @@ MACRO(RUN_CONAN)
             REQUIRES
             ${CONAN_EXTRA_REQUIRES}
             catch2/2.13.7
+            fmt/8.0.1
             OPTIONS
             ${CONAN_EXTRA_OPTIONS}
             BASIC_SETUP

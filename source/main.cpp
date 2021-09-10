@@ -1,12 +1,11 @@
 #include "TypeConversion.h"
 
-#include <iostream>
+#include <fmt/format.h>
 
 int main()
 {
-    constexpr auto milliVolt = 4.096;
+    constexpr auto milliVolt = 4.096;  // 100°C
     const double temp = calculate<TypeK, Conversion::Temperature>(milliVolt);
-    std::cout << "Temperature: " << temp << "\n";
-    std::cout << "Voltage: " << calculate<TypeK, Conversion::Voltage>(temp) << "\n";
+    fmt::print("Temperature: {0:.2f} °C\nVoltage: {1:.2f} mV", temp, calculate<TypeK, Conversion::Voltage>(temp));
     return 0;
 }
