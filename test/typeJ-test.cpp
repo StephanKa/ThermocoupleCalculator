@@ -2,6 +2,9 @@
 #include <catch2/catch.hpp>
 
 constexpr double EPSILON = 0.1;
+
+TEST_CASE("TypeJ - Name test") { CHECK("TypeJ" == TypeJ::name); }
+
 TEST_CASE("TypeJ - Positive Voltage To Temperature = 4.096mV")
 {
     const auto voltage = 4.096;

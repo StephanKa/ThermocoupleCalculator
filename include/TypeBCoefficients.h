@@ -5,6 +5,7 @@
 
 struct TypeB
 {
+    static constexpr std::string_view name = "TypeB";
     struct [[maybe_unused]] TemperatureToVoltage
     {
         static constexpr double lowerLimit = 0.0;

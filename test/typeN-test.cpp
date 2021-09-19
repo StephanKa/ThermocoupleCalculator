@@ -3,6 +3,8 @@
 
 constexpr double EPSILON = 0.1;
 
+TEST_CASE("TypeN - Name test") { CHECK("TypeN" == TypeN::name); }
+
 TEST_CASE("TypeN - Positive Voltage To Temperature = 4.096mV")
 {
     const auto voltage = 4.096;

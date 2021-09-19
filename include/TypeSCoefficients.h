@@ -4,6 +4,7 @@
 
 struct TypeS
 {
+    static constexpr std::string_view name = "TypeS";
     struct [[maybe_unused]] TemperatureToVoltage
     {
         struct Positive

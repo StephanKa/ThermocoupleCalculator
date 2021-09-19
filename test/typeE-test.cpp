@@ -1,6 +1,8 @@
 #include <TypeConversion.h>
 #include <catch2/catch.hpp>
 
+TEST_CASE("TypeE - Name test") { CHECK("TypeE" == TypeE::name); }
+
 TEST_CASE("TypeE - Positive Voltage To Temperature = 4.096mV")
 {
     const auto voltage = 4.096;

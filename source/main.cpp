@@ -9,7 +9,7 @@ int main()
     const auto temp = calculate<Conversion::Temperature, TypeK>(milliVolt);
     fmt::print("Temperature: {0:.2f} °C\nVoltage: {1:.2f} mV\n", temp, calculate<Conversion::Voltage, TypeK>(temp));
     const auto temperatures = calculate<Conversion::Temperature, TypeK, TypeT>(milliVolt);
-    fmt::print("TypeK Temperature: {0:.2f} °C\n", std::get<0>(temperatures));
-    fmt::print("TypeT Temperature: {0:.2f} °C\n", std::get<1>(temperatures));
+    fmt::print("{1} Temperature: {0:.2f} °C\n", std::get<0>(temperatures), TypeK::name);
+    fmt::print("{1} Temperature: {0:.2f} °C\n", std::get<1>(temperatures), TypeT::name);
     return 0;
 }
