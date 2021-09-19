@@ -7,18 +7,18 @@
 
 This code will calculate thermo voltages from a given temperature for a defined thermocouple type or calculates a temperatures from a given voltage.
 
-The code based on the coefficients of the NIST database which can be found here: https://srdata.nist.gov/its90/download/type_<X>.tab
+The code based on the coefficients of the NIST database
 
 Supported thermocouple types are:
 
-- Type-B
-- Type-E
-- Type-J
-- Type-K
-- Type-N
-- Type-R
-- Type-S
-- Type-T
+- **[Type-B](https://srdata.nist.gov/its90/download/type_b.tab)**
+- **[Type-E](https://srdata.nist.gov/its90/download/type_e.tab)**
+- **[Type-J](https://srdata.nist.gov/its90/download/type_j.tab)**
+- **[Type-K](https://srdata.nist.gov/its90/download/type_k.tab)**
+- **[Type-N](https://srdata.nist.gov/its90/download/type_n.tab)**
+- **[Type-R](https://srdata.nist.gov/its90/download/type_r.tab)**
+- **[Type-S](https://srdata.nist.gov/its90/download/type_s.tab)**
+- **[Type-T](https://srdata.nist.gov/its90/download/type_t.tab)**
 
 ## Example
 
@@ -32,12 +32,14 @@ This example can be found under **source/main.cpp**
 int main()
 {
     constexpr auto milliVolt = 4.096;  // 100°C
-    const double temp = calculate<TypeK, Conversion::Temperature>(milliVolt);
-    fmt::print("Temperature: {0:.2f} °C\nVoltage: {1:.2f} mV", temp, calculate<TypeK, Conversion::Voltage>(temp));
+    // only one type given
+    const auto temp = calculate<Conversion::Temperature, TypeK>(milliVolt);
+    fmt::print("Temperature: {0:.2f} °C\nVoltage: {1:.2f} mV\n", temp, calculate<Conversion::Voltage, TypeK>(temp));
+    const auto temperatures = calculate<Conversion::Temperature, TypeK, TypeT>(milliVolt);
+    fmt::print("TypeK Temperature: {0:.2f} °C\n", std::get<0>(temperatures));
+    fmt::print("TypeT Temperature: {0:.2f} °C\n", std::get<1>(temperatures));
     return 0;
 }
 ```
 
 ## To-Do
-
-- [ ] add parameter pack for calculating multiple types at a time
