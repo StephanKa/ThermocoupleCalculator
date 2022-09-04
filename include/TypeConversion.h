@@ -36,13 +36,13 @@ template<Conversion Target, typename T> constexpr auto calculateInternal(const d
     }
 }
 
-template<typename T, Conversion ConversionTarget> constexpr auto conversion(const std::vector<double>& values) -> std::vector<double>
+template<typename T, Conversion ConversionTarget, size_t SIZE> constexpr auto conversion(const std::array<double, SIZE>& values) -> std::array<double, SIZE>
 {
-    std::vector<double> result;
-    result.reserve(values.size());
-    for (const auto& val : values)
+    std::array<double, SIZE> result;
+    size_t index = 0;
+    for (const auto& val : values, ++index)
     {
-        result.push_back(calculate<T, ConversionTarget>(val));
+        result[index] = calculate<T, ConversionTarget>(val);
     }
     return result;
 }
