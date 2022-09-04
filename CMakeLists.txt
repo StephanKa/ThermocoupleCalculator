@@ -6,6 +6,11 @@ SET(CMAKE_BUILD_PARALLEL_LEVEL 8)
 INCLUDE(cmake/StandardProjectSettings.cmake)
 INCLUDE(cmake/PreventInSourceBuilds.cmake)
 
+FIND_PACKAGE(Python COMPONENTS Interpreter REQUIRED)
+
+# install PyPI Python package using pip
+EXECUTE_PROCESS(COMMAND ${Python_EXECUTABLE} -m pip install --user --upgrade pip setuptools jinja2 conan)
+
 # Link this 'library' to set the c++ standard / compile-time options requested
 ADD_LIBRARY(project_options INTERFACE)
 TARGET_COMPILE_FEATURES(project_options INTERFACE cxx_std_20)
