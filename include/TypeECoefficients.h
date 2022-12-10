@@ -9,8 +9,8 @@ struct TypeE
     {
         struct Positive
         {
-            static constexpr double LOWER_LIMIT = 0.0;
-            static constexpr double UPPER_LIMIT = 1000.0;
+            static constexpr Limits LIMITS{0.0, 1000.0};
+            // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000E+00,
                                                        0.586655087100E-01,
                                                        0.450322755820E-04,
@@ -22,12 +22,13 @@ struct TypeE
                                                        0.214892175690E-20,
                                                        -0.143880417820E-23,
                                                        0.359608994810E-27};
+            // clang-format on
         };
 
         struct Negative
         {
-            static constexpr double LOWER_LIMIT = -270.0;
-            static constexpr double UPPER_LIMIT = 0.0;
+            static constexpr Limits LIMITS{-270.0, 0.0};
+            // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000E+00,
                                                        0.586655087080E-01,
                                                        0.454109771240E-04,
@@ -42,6 +43,7 @@ struct TypeE
                                                        -0.396736195160E-22,
                                                        -0.558273287210E-25,
                                                        -0.346578420130E-28};
+            // clang-format on
         };
     };
 
@@ -49,22 +51,40 @@ struct TypeE
     {
         struct Negative
         {
-            static constexpr double LOWER_LIMIT = -200.0;
-            static constexpr double UPPER_LIMIT = 0.0;
+            static constexpr Limits LIMITS{-200.0, 0.0};
             static constexpr double RANGE = 0.03;
             static constexpr double ERROR = -0.01;
-            static constexpr std::array COEFFICIENT = {
-                0.0000000E+00, 1.6977288E+01, -4.3514970E-01, -1.5859697E-01, -9.2502871E-02, -2.6084314E-02, -4.1360199E-03, -3.4034030E-04, -1.1564890E-05, 0.0000000E+00};
+            // clang-format off
+            static constexpr std::array COEFFICIENT = { 0.0000000E+00,
+                                                        1.6977288E+01,
+                                                       -4.3514970E-01,
+                                                       -1.5859697E-01,
+                                                       -9.2502871E-02,
+                                                       -2.6084314E-02,
+                                                       -4.1360199E-03,
+                                                       -3.4034030E-04,
+                                                       -1.1564890E-05,
+                                                        0.0000000E+00};
+            // clang-format on
         };
 
         struct Positive
         {
-            static constexpr double LOWER_LIMIT = 0.0;
-            static constexpr double UPPER_LIMIT = 1000.0;
+            static constexpr Limits LIMITS{0.0, 1000.0};
             static constexpr double RANGE = 0.02;
             static constexpr double ERROR = -0.02;
-            static constexpr std::array COEFFICIENT = {
-                0.0000000E+00, 1.7057035E+01, -2.3301759E-01, 6.5435585E-03, -7.3562749E-05, -1.7896001E-06, 8.4036165E-08, -1.3735879E-09, 1.0629823E-11, -3.2447087E-14};
+            // clang-format off
+            static constexpr std::array COEFFICIENT = { 0.0000000E+00,
+                                                        1.7057035E+01,
+                                                       -2.3301759E-01,
+                                                         6.5435585E-03,
+                                                       -7.3562749E-05,
+                                                       -1.7896001E-06,
+                                                         8.4036165E-08,
+                                                       -1.3735879E-09,
+                                                         1.0629823E-11,
+                                                       -3.2447087E-14};
+            // clang-format on
         };
     };
 };

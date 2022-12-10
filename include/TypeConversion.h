@@ -13,13 +13,14 @@
 #include <vector>
 
 namespace Internal {
-template<Conversion Target, typename T> constexpr auto calculateInternal(const double value) -> double
+template<Conversion Target, typename T>
+constexpr auto calculateInternal(const double value) -> double
 {
-    if constexpr (std::is_same_v<T, TypeB> && Target == Conversion::Temperature)
+    if constexpr (std::is_same_v<T, TypeB> && (Target == Conversion::Temperature))
     {
         return T::VoltageToTemperature::calculate(value);
     }
-    else if constexpr ((std::is_same_v<T, TypeK> || std::is_same_v<T, TypeB>) &&Target == Conversion::Voltage)
+    else if constexpr ((std::is_same_v<T, TypeK> || std::is_same_v<T, TypeB>) &&(Target == Conversion::Voltage))
     {
         return T::TemperatureToVoltage::calculate(value);
     }
@@ -36,9 +37,10 @@ template<Conversion Target, typename T> constexpr auto calculateInternal(const d
     }
 }
 
-template<typename T, Conversion ConversionTarget, size_t SIZE> constexpr auto conversion(const std::array<double, SIZE>& values) -> std::array<double, SIZE>
+template<typename T, Conversion ConversionTarget, size_t SIZE>
+constexpr auto conversion(const std::array<double, SIZE>& values) -> std::array<double, SIZE>
 {
-    std::array<double, SIZE> result;
+    decltype(values) result;
     size_t index = 0;
     for (const auto& val : values, ++index)
     {
@@ -48,15 +50,28 @@ template<typename T, Conversion ConversionTarget, size_t SIZE> constexpr auto co
 }
 }  // namespace Internal
 
-template<class T, class> using hook = T;
+template<class T, class>
+using hook = T;
 
-template<Conversion Target, typename... T> constexpr auto calculate(const double value)
+template<typename T, typename ValueType>
+struct Test
+{
+    using Type = T;
+    ValueType value;
+
+    auto getValue() const { return value; }
+
+    auto getName() const { return Type::NAME; }
+};
+
+template<Conversion Target, typename... T>
+constexpr auto calculate(const double value)
 {
     static_assert(sizeof...(T) > 0, "Please give an type as template parameter.");
     if constexpr (sizeof...(T) > 1)
     {
-        std::tuple<hook<double, T>...> result;
-        std::apply([&](auto&... xs) { ((xs = Internal::calculateInternal<Target, T>(value)), ...); }, result);
+        std::tuple<hook<Test<T, double>, T>...> result;
+        std::apply([&](auto&... xs) { ((xs.value = Internal::calculateInternal<Target, T>(value)), ...); }, result);
         return result;
     }
     else

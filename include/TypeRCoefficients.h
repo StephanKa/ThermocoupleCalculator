@@ -9,15 +9,21 @@ struct TypeR
     {
         struct Positive
         {
-            static constexpr double LOWER_LIMIT = 1064.18;
-            static constexpr double UPPER_LIMIT = 1664.5;
-            static constexpr std::array COEFFICIENT = {0.295157925316E+01, -0.252061251332E-02, 0.159564501865E-04, -0.764085947576E-08, 0.205305291024E-11, -0.293359668173E-15};
+            static constexpr Limits LIMITS{1064.18, 1664.5};
+            // clang-format off
+            static constexpr std::array COEFFICIENT = { 0.295157925316E+01,
+                                                       -0.252061251332E-02,
+                                                        0.159564501865E-04,
+                                                       -0.764085947576E-08,
+                                                        0.205305291024E-11,
+                                                       -0.293359668173E-15};
+            // clang-format on
         };
 
         struct Negative
         {
-            static constexpr double LOWER_LIMIT = -50.0;
-            static constexpr double UPPER_LIMIT = 1064.18;
+            static constexpr Limits LIMITS{-50.0, 1064.18};
+            // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000E+00,
                                                        0.528961729765E-02,
                                                        0.139166589782E-04,
@@ -28,6 +34,7 @@ struct TypeR
                                                        -0.373105886191E-19,
                                                        0.157716482367E-22,
                                                        -0.281038625251E-26};
+            // clang-format on
         };
     };
 
@@ -35,10 +42,10 @@ struct TypeR
     {
         struct Negative
         {
-            static constexpr double LOWER_LIMIT = -0.226;
-            static constexpr double UPPER_LIMIT = 1.923;
+            static constexpr Limits LIMITS{-0.226, 1.923};
             static constexpr double RANGE = 0.02;
             static constexpr double ERROR = -0.02;
+            // clang-format off
             static constexpr std::array COEFFICIENT = {0.0000000E+00,
                                                        1.8891380E+02,
                                                        -9.3835290E+01,
@@ -50,14 +57,15 @@ struct TypeR
                                                        -1.2607281E+02,
                                                        3.1353611E+01,
                                                        -3.3187769E+00};
+            // clang-format on
         };
 
         struct Positive
         {
-            static constexpr double LOWER_LIMIT = 1.923;
-            static constexpr double UPPER_LIMIT = 13.228;
+            static constexpr Limits LIMITS{1.923, 13.228};
             static constexpr double RANGE = 0.005;
             static constexpr double ERROR = -0.005;
+            // clang-format off
             static constexpr std::array COEFFICIENT = {1.334584505E+01,
                                                        1.472644573E+02,
                                                        -1.844024844E+01,
@@ -69,6 +77,7 @@ struct TypeR
                                                        -5.313401790E-06,
                                                        6.481976217E-08,
                                                        0.000000000E+00};
+            // clang-format on
         };
     };
 };

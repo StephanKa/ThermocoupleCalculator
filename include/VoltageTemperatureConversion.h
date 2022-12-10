@@ -13,7 +13,14 @@ enum class Conversion
     Temperature
 };
 
-template<typename T, Conversion TargetConversion> constexpr auto calculation(const T& coefficient, const double voltage) -> double
+struct Limits
+{
+    double LOWER;
+    double UPPER;
+};
+
+template<typename T, Conversion TargetConversion>
+constexpr auto calculation(const T& coefficient, const double voltage) -> double
 {
     double result = 0.0;
     size_t index = 0;
@@ -29,14 +36,15 @@ template<typename T, Conversion TargetConversion> constexpr auto calculation(con
     return result;
 }
 
-template<class Positive, class Negative, Conversion Type> constexpr auto conversion(const double voltage) -> double
+template<class Positive, class Negative, Conversion Type>
+constexpr auto conversion(const double voltage) -> double
 {
     double degrees = 0.0;
-    if (voltage >= Negative::LOWER_LIMIT && voltage <= Negative::UPPER_LIMIT)
+    if (voltage >= Negative::LIMITS.LOWER && voltage <= Negative::LIMITS.UPPER)
     {
         degrees = calculation<decltype(Negative::COEFFICIENT), Type>(Negative::COEFFICIENT, voltage);
     }
-    else if (voltage >= Positive::LOWER_LIMIT && voltage <= Positive::UPPER_LIMIT)
+    else if (voltage >= Positive::LIMITS.LOWER && voltage <= Positive::LIMITS.UPPER)
     {
         degrees = calculation<decltype(Positive::COEFFICIENT), Type>(Positive::COEFFICIENT, voltage);
     }

@@ -9,8 +9,8 @@ struct TypeT
     {
         struct Positive
         {
-            static constexpr double LOWER_LIMIT = 0.0;
-            static constexpr double UPPER_LIMIT = 400.0;
+            static constexpr Limits LIMITS{0.0, 400.0};
+            // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000E+00,
                                                        0.387481063640E-01,
                                                        0.332922278800E-04,
@@ -20,12 +20,13 @@ struct TypeT
                                                        -0.308157587720E-13,
                                                        0.454791352900E-16,
                                                        -0.275129016730E-19};
+            // clang-format on
         };
 
         struct Negative
         {
-            static constexpr double LOWER_LIMIT = -270.0;
-            static constexpr double UPPER_LIMIT = 0.0;
+            static constexpr Limits LIMITS{-270.0, 0.0};
+            // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000E+00,
                                                        0.387481063640E-01,
                                                        0.441944343470E-04,
@@ -41,6 +42,7 @@ struct TypeT
                                                        0.107955392700E-23,
                                                        0.139450270620E-26,
                                                        0.797951539270E-30};
+            // clang-format on
         };
     };
 
@@ -48,20 +50,36 @@ struct TypeT
     {
         struct Negative
         {
-            static constexpr double LOWER_LIMIT = -5.603;
-            static constexpr double UPPER_LIMIT = 0.0;
+            static constexpr Limits LIMITS{-5.603, 0.0};
             static constexpr double RANGE = 0.04;
             static constexpr double ERROR = -0.02;
-            static constexpr std::array COEFFICIENT = {0.0000000E+00, 2.5949192E+01, -2.1316967E-01, 7.9018692E-01, 4.2527777E-01, 1.3304473E-01, 2.0241446E-02, 1.2668171E-03};
+            // clang-format off
+            static constexpr std::array COEFFICIENT = { 0.0000000E+00,
+                                                        2.5949192E+01,
+                                                       -2.1316967E-01,
+                                                        7.9018692E-01,
+                                                        4.2527777E-01,
+                                                        1.3304473E-01,
+                                                        2.0241446E-02,
+                                                        1.2668171E-03};
+            // clang-format on
         };
 
         struct Positive
         {
-            static constexpr double LOWER_LIMIT = 0.0;
-            static constexpr double UPPER_LIMIT = 20.872;
+            static constexpr Limits LIMITS{0.0, 20.872};
             static constexpr double RANGE = 0.03;
             static constexpr double ERROR = -0.03;
-            static constexpr std::array COEFFICIENT = {0.000000E+00, 2.592800E+01, -7.602961E-01, 4.637791E-02, -2.165394E-03, 6.048144E-05, -7.293422E-07, 0.000000E+00};
+            // clang-format off
+            static constexpr std::array COEFFICIENT = { 0.000000E+00,
+                                                        2.592800E+01,
+                                                       -7.602961E-01,
+                                                        4.637791E-02,
+                                                       -2.165394E-03,
+                                                        6.048144E-05,
+                                                       -7.293422E-07,
+                                                        0.000000E+00};
+            // clang-format on
         };
     };
 };

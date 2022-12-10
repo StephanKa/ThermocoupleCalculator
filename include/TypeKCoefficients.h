@@ -9,8 +9,8 @@ struct TypeK
     {
         struct Positive
         {
-            static constexpr double LOWER_LIMIT = 0.0;
-            static constexpr double UPPER_LIMIT = 1372.0;
+            static constexpr Limits LIMITS{0.0, 1372.0};
+            // clang-format off
             static constexpr std::array COEFFICIENT = {-0.176004136860e-01,
                                                        0.389212049750e-01,
                                                        0.185587700320e-04,
@@ -22,12 +22,13 @@ struct TypeK
                                                        0.971511471520e-22,
                                                        -0.121047212750e-25};
             static constexpr std::array ALPHA_COEFFICIENT = {0.118597600000e0, -0.118343200000e-3, 0.1269686e3};
+            // clang-format on
         };
 
         struct Negative
         {
-            static constexpr double LOWER_LIMIT = -270.0;
-            static constexpr double UPPER_LIMIT = 0.0;
+            static constexpr Limits LIMITS{-270.0, 0.0};
+            // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000e+00,
                                                        0.394501280250e-01,
                                                        0.236223735980e-04,
@@ -39,16 +40,17 @@ struct TypeK
                                                        -0.104516093650e-16,
                                                        -0.198892668780e-19,
                                                        -0.163226974860e-22};
+            // clang-format on
         };
 
         constexpr static double calculate(const double degrees)
         {
             double voltage = 0.0;
-            if (degrees >= Negative::LOWER_LIMIT && degrees <= Negative::UPPER_LIMIT)
+            if (degrees >= Negative::LIMITS.LOWER && degrees <= Negative::LIMITS.UPPER)
             {
                 voltage = calculation<decltype(Negative::COEFFICIENT), Conversion::Voltage>(Negative::COEFFICIENT, degrees);
             }
-            else if (degrees >= Positive::LOWER_LIMIT && degrees <= Positive::UPPER_LIMIT)
+            else if (degrees >= Positive::LIMITS.LOWER && degrees <= Positive::LIMITS.UPPER)
             {
                 voltage = Positive::COEFFICIENT[0];
                 for (size_t index = 1; index < Positive::COEFFICIENT.size(); index++)
@@ -65,22 +67,40 @@ struct TypeK
     {
         struct Negative
         {
-            static constexpr double LOWER_LIMIT = -5.891;
-            static constexpr double UPPER_LIMIT = 0.0;
+            static constexpr Limits LIMITS{-5.891, 0.0};
             static constexpr double RANGE = 0.04;
             static constexpr double ERROR = -0.02;
-            static constexpr std::array COEFFICIENT = {
-                0.0000000E+00, 2.5173462E+01, -1.1662878E+00, -1.0833638E+00, -8.9773540E-01, -3.7342377E-01, -8.6632643E-02, -1.0450598E-02, -5.1920577E-04, 0.0000000E+00};
+            // clang-format off
+            static constexpr std::array COEFFICIENT = { 0.0000000E+00,
+                                                        2.5173462E+01,
+                                                       -1.1662878E+00,
+                                                       -1.0833638E+00,
+                                                       -8.9773540E-01,
+                                                       -3.7342377E-01,
+                                                       -8.6632643E-02,
+                                                       -1.0450598E-02,
+                                                       -5.1920577E-04,
+                                                        0.0000000E+00};
+            // clang-format on
         };
 
         struct Positive
         {
-            static constexpr double LOWER_LIMIT = 0.0;
-            static constexpr double UPPER_LIMIT = 20.644;
+            static constexpr Limits LIMITS{0.0, 20.644};
             static constexpr double RANGE = 0.04;
             static constexpr double ERROR = -0.05;
-            static constexpr std::array COEFFICIENT = {
-                0.000000E+00, 2.508355E+01, 7.860106E-02, -2.503131E-01, 8.315270E-02, -1.228034E-02, 9.804036E-04, -4.413030E-05, 1.057734E-06, -1.052755E-08};
+            // clang-format off
+            static constexpr std::array COEFFICIENT = { 0.000000E+00,
+                                                        2.508355E+01,
+                                                        7.860106E-02,
+                                                       -2.503131E-01,
+                                                        8.315270E-02,
+                                                       -1.228034E-02,
+                                                        9.804036E-04,
+                                                       -4.413030E-05,
+                                                        1.057734E-06,
+                                                       -1.052755E-08};
+            // clang-format on
         };
     };
 };
