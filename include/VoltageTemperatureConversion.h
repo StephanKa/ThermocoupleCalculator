@@ -39,14 +39,13 @@ constexpr auto calculation(const T& coefficient, const double voltage) -> double
 template<class Positive, class Negative, Conversion Type>
 constexpr auto conversion(const double voltage) -> double
 {
-    double degrees = 0.0;
     if (voltage >= Negative::LIMITS.LOWER && voltage <= Negative::LIMITS.UPPER)
     {
-        degrees = calculation<decltype(Negative::COEFFICIENT), Type>(Negative::COEFFICIENT, voltage);
+        return calculation<decltype(Negative::COEFFICIENT), Type>(Negative::COEFFICIENT, voltage);
     }
-    else if (voltage >= Positive::LIMITS.LOWER && voltage <= Positive::LIMITS.UPPER)
+    if (voltage >= Positive::LIMITS.LOWER && voltage <= Positive::LIMITS.UPPER)
     {
-        degrees = calculation<decltype(Positive::COEFFICIENT), Type>(Positive::COEFFICIENT, voltage);
+        return calculation<decltype(Positive::COEFFICIENT), Type>(Positive::COEFFICIENT, voltage);
     }
-    return degrees;
+    return 0.0;
 }

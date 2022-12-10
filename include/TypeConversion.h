@@ -8,7 +8,6 @@
 #include <TypeSCoefficients.h>
 #include <TypeTCoefficients.h>
 #include <functional>
-#include <iostream>
 #include <tuple>
 #include <vector>
 
@@ -54,14 +53,14 @@ template<class T, class>
 using hook = T;
 
 template<typename T, typename ValueType>
-struct Test
+struct Result
 {
     using Type = T;
     ValueType value;
 
-    auto getValue() const { return value; }
+    auto getValue() const noexcept { return value; }
 
-    auto getName() const { return Type::NAME; }
+    auto getName() const noexcept { return Type::NAME; }
 };
 
 template<Conversion Target, typename... T>
@@ -70,7 +69,7 @@ constexpr auto calculate(const double value)
     static_assert(sizeof...(T) > 0, "Please give an type as template parameter.");
     if constexpr (sizeof...(T) > 1)
     {
-        std::tuple<hook<Test<T, double>, T>...> result;
+        std::tuple<hook<Result<T, double>, T>...> result;
         std::apply([&](auto&... xs) { ((xs.value = Internal::calculateInternal<Target, T>(value)), ...); }, result);
         return result;
     }
