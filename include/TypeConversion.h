@@ -63,6 +63,7 @@ struct Result
     auto getName() const noexcept { return Type::NAME; }
 };
 
+namespace Thermocouple {
 template<Conversion Target, typename... T>
 constexpr auto calculate(const double value)
 {
@@ -79,3 +80,4 @@ constexpr auto calculate(const double value)
         return Internal::calculateInternal<Target, std::tuple_element_t<0, std::tuple<T...>>>(value);
     }
 }
+}  // namespace Thermocouple
