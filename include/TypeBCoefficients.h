@@ -19,11 +19,11 @@ struct TypeB
                                                     0.629903470940E-18};
         // clang-format on
 
-        static constexpr auto calculate(const double degrees) -> double
+        static constexpr auto calculate(const auto& degrees) -> double
         {
-            if (degrees >= LIMITS.LOWER && degrees <= LIMITS.UPPER)
+            if (degrees() >= LIMITS.LOWER && degrees() <= LIMITS.UPPER)
             {
-                return calculation<decltype(COEFFICIENT), Conversion::Voltage>(COEFFICIENT, degrees);
+                return calculation<decltype(COEFFICIENT), Conversion::Volt>(COEFFICIENT, degrees);
             }
             return 0.0;
         }
@@ -46,11 +46,11 @@ struct TypeB
                                                    -2.4742860E+00};
         // clang-format on
 
-        static constexpr auto calculate(const double voltage) -> double
+        static constexpr auto calculate(const auto& voltage) -> double
         {
-            if (voltage >= LIMITS.LOWER && voltage <= LIMITS.UPPER)
+            if (voltage() >= LIMITS.LOWER && voltage() <= LIMITS.UPPER)
             {
-                return calculation<decltype(COEFFICIENT), Conversion::Temperature>(COEFFICIENT, voltage);
+                return calculation<decltype(COEFFICIENT), Conversion::Temp>(COEFFICIENT, voltage);
             }
             return 0.0;
         }
