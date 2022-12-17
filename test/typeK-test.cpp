@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include <TypeConversion.h>
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 using namespace UnitLiterals;
 constexpr double EPSILON = 0.1;
