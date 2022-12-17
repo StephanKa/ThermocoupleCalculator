@@ -15,8 +15,8 @@ MACRO(RUN_CONAN)
     CONAN_CMAKE_RUN(
             REQUIRES
             ${CONAN_EXTRA_REQUIRES}
-            catch2/2.13.9
-            fmt/8.1.1
+            catch2/3.2.1
+            fmt/9.1.0
             OPTIONS
             ${CONAN_EXTRA_OPTIONS}
             BASIC_SETUP
