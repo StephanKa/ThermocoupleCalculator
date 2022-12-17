@@ -19,6 +19,8 @@ MACRO(RUN_CONAN)
             fmt/9.1.0
             OPTIONS
             ${CONAN_EXTRA_OPTIONS}
+            SETTINGS
+            compiler.cppstd=${CMAKE_CXX_STANDARD}
             BASIC_SETUP
             CMAKE_TARGETS # individual targets to link to
             BUILD
