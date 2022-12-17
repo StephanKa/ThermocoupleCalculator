@@ -23,7 +23,7 @@ struct TypeB
         {
             if (degrees() >= LIMITS.LOWER && degrees() <= LIMITS.UPPER)
             {
-                return calculation<decltype(COEFFICIENT), Conversion::Volt>(COEFFICIENT, degrees);
+                return calculation<decltype(COEFFICIENT), Helper::Conversion::Volt>(COEFFICIENT, degrees);
             }
             return 0.0;
         }
@@ -50,7 +50,7 @@ struct TypeB
         {
             if (voltage() >= LIMITS.LOWER && voltage() <= LIMITS.UPPER)
             {
-                return calculation<decltype(COEFFICIENT), Conversion::Temp>(COEFFICIENT, voltage);
+                return calculation<decltype(COEFFICIENT), Helper::Conversion::Temp>(COEFFICIENT, voltage);
             }
             return 0.0;
         }

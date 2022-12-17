@@ -1,15 +1,16 @@
 #pragma once
-#include <TypeBCoefficients.h>
-#include <TypeECoefficients.h>
-#include <TypeJCoefficients.h>
-#include <TypeKCoefficients.h>
-#include <TypeNCoefficients.h>
-#include <TypeRCoefficients.h>
-#include <TypeSCoefficients.h>
-#include <TypeTCoefficients.h>
+#include <TypeB.h>
+#include <TypeE.h>
+#include <TypeJ.h>
+#include <TypeK.h>
+#include <TypeN.h>
+#include <TypeR.h>
+#include <TypeS.h>
+#include <TypeT.h>
 #include <functional>
 #include <tuple>
 
+namespace Thermocouple {
 template<typename T, typename ValueType>
 struct Result
 {
@@ -23,22 +24,23 @@ struct Result
 
 template<class T, class>
 using hook = T;
+}  // namespace Thermocouple
 
 namespace Internal {
-template<Conversion Target, typename T>
-constexpr auto calculate(const auto& value) -> double
+template<Helper::Conversion Target, typename T>
+constexpr auto calculate(const auto& value)
 {
-    if constexpr (std::is_same_v<T, TypeB> && (Target == Conversion::Temp))
+    if constexpr (std::is_same_v<T, TypeB> && (Target == Helper::Conversion::Temp))
     {
         return T::VoltageToTemperature::calculate(value);
     }
-    else if constexpr ((std::is_same_v<T, TypeK> || std::is_same_v<T, TypeB>) &&(Target == Conversion::Volt))
+    else if constexpr ((std::is_same_v<T, TypeK> || std::is_same_v<T, TypeB>) &&(Target == Helper::Conversion::Volt))
     {
         return T::TemperatureToVoltage::calculate(value);
     }
     else
     {
-        if constexpr (Target == Conversion::Temp)
+        if constexpr (Target == Helper::Conversion::Temp)
         {
             return conversion<typename T::VoltageToTemperature::Positive, typename T::VoltageToTemperature::Negative, Target>(value);
         }
@@ -49,8 +51,8 @@ constexpr auto calculate(const auto& value) -> double
     }
 }
 
-template<typename T, Conversion ConversionTarget, size_t SIZE>
-constexpr auto conversion(const std::array<double, SIZE>& values) -> std::array<double, SIZE>
+template<typename T, Helper::Conversion ConversionTarget, size_t SIZE>
+constexpr auto conversion(const std::array<double, SIZE>& values)
 {
     decltype(values) result;
     size_t index = 0;
@@ -61,12 +63,12 @@ constexpr auto conversion(const std::array<double, SIZE>& values) -> std::array<
     return result;
 }
 
-template<Conversion Target, typename... T>
+template<Helper::Conversion Target, typename... T>
 constexpr auto calculation(const auto& value)
 {
     if constexpr (sizeof...(T) > 1)
     {
-        std::tuple<hook<Result<T, double>, T>...> result;
+        std::tuple<Thermocouple::hook<Thermocouple::Result<T, double>, T>...> result;
         std::apply([&](auto&... xs) { ((xs.value = Internal::calculate<Target, T>(value)), ...); }, result);
         return result;
     }
@@ -90,11 +92,11 @@ constexpr auto calculate(const auto& value)
     static_assert(sizeof...(T) > 0, "Please give an type as template parameter.");
     if constexpr (std::is_same_v<std::remove_cvref_t<decltype(value)>, Temperature>)
     {
-        return Internal::calculation<Conversion::Volt, T...>(value);
+        return Internal::calculation<Helper::Conversion::Volt, T...>(value);
     }
     else
     {
-        return Internal::calculation<Conversion::Temp, T...>(value);
+        return Internal::calculation<Helper::Conversion::Temp, T...>(value);
     }
 }
 }  // namespace Thermocouple

@@ -1,5 +1,6 @@
 #pragma once
-#include <VoltageTemperatureConversion.h>
+#include "VoltageTemperatureConversion.h"
+
 #include <array>
 
 struct TypeK
@@ -48,7 +49,7 @@ struct TypeK
             double voltage = 0.0;
             if (degrees() >= Negative::LIMITS.LOWER && degrees() <= Negative::LIMITS.UPPER)
             {
-                voltage = calculation<decltype(Negative::COEFFICIENT), Conversion::Volt>(Negative::COEFFICIENT, degrees);
+                voltage = calculation<decltype(Negative::COEFFICIENT), Helper::Conversion::Volt>(Negative::COEFFICIENT, degrees);
             }
             else if (degrees() >= Positive::LIMITS.LOWER && degrees() <= Positive::LIMITS.UPPER)
             {

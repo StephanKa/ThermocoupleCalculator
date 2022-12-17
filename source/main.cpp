@@ -11,8 +11,7 @@ int main()
 
     // only one type given
     constexpr auto TEMP = Thermocouple::calculate<TypeK>(MILLI_VOLT);
-    constexpr Temperature temp{TEMP};
-    fmt::print("Temperature: {0:.2f} °C\nVoltage: {1:.2f} mV\n", TEMP, Thermocouple::calculate<TypeK>(temp));
+    fmt::print("Temperature: {0:.2f} °C\nVoltage: {1:.2f} mV\n", TEMP, Thermocouple::calculate<TypeK>(Temperature{TEMP}));
 
     constexpr auto TEMPERATURES = Thermocouple::calculate<TypeK, TypeT, TypeB, TypeE, TypeJ, TypeN, TypeR, TypeS>(MILLI_VOLT);
     std::apply([](const auto&... val) { ((fmt::print("{1} Temperature: {0:.2f} °C\n", val.getValue(), val.getName())), ...); }, TEMPERATURES);
