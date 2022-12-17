@@ -6,6 +6,7 @@ ELSE()
 ENDIF()
 
 ADD_LIBRARY(catch_main STATIC catch_main.cpp)
+
 TARGET_LINK_LIBRARIES(catch_main PUBLIC CONAN_PKG::catch2)
 TARGET_LINK_LIBRARIES(catch_main PRIVATE project_options)
 
@@ -20,7 +21,7 @@ CATCH_DISCOVER_TESTS(
         TEST_PREFIX
         "unittests."
         REPORTER
-        xml
+        "JUnit"
         OUTPUT_DIR
         .
         OUTPUT_PREFIX

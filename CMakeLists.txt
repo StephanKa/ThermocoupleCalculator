@@ -3,6 +3,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.15)
 # Set the project name to your project name, my project isn't very descriptive
 PROJECT(ThermocoupleCalculator CXX)
 SET(CMAKE_BUILD_PARALLEL_LEVEL 8)
+SET(CMAKE_CXX_STANDARD 20)
+
 INCLUDE(cmake/StandardProjectSettings.cmake)
 INCLUDE(cmake/PreventInSourceBuilds.cmake)
 
@@ -13,7 +15,7 @@ EXECUTE_PROCESS(COMMAND ${Python_EXECUTABLE} -m pip install --user --upgrade pip
 
 # Link this 'library' to set the c++ standard / compile-time options requested
 ADD_LIBRARY(project_options INTERFACE)
-TARGET_COMPILE_FEATURES(project_options INTERFACE cxx_std_20)
+TARGET_COMPILE_FEATURES(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
 
 IF(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
     OPTION(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
@@ -68,7 +70,6 @@ RUN_CONAN()
 
 IF(ENABLE_TESTING)
     ENABLE_TESTING()
-    MESSAGE("Building Tests. Be sure to check out test/constexpr_tests for constexpr testing")
     ADD_SUBDIRECTORY(test)
 ENDIF()
 
