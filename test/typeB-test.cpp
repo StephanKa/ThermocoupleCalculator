@@ -18,13 +18,13 @@ TEST_CASE("TypeB - Positive Voltage To Temperature = 2.2mV")
     REQUIRE_THAT(Thermocouple::calculate<TypeB>(VOLTAGE), Catch::Matchers::WithinRel(665.4, EPSILON));
 }
 
-TEST_CASE("TypeB - Positive Temperature To Voltage = 321.9°C")
+TEST_CASE("TypeB - Positive Temperature To Voltage = 321.9Degrees")
 {
     const auto TEMPERATURE = 321.9_Temp;
     REQUIRE_THAT(Thermocouple::calculate<TypeB>(TEMPERATURE), Catch::Matchers::WithinRel(0.5, EPSILON));
 }
 
-TEST_CASE("TypeB - Positive Temperature To Voltage = 665.4°C")
+TEST_CASE("TypeB - Positive Temperature To Voltage = 665.4Degrees")
 {
     const auto TEMPERATURE = 665.4_Temp;
     REQUIRE_THAT(Thermocouple::calculate<TypeB>(TEMPERATURE), Catch::Matchers::WithinRel(2.2, EPSILON));

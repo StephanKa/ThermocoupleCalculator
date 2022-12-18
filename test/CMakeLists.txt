@@ -19,12 +19,12 @@ TARGET_INCLUDE_DIRECTORIES(tests PRIVATE ../include)
 CATCH_DISCOVER_TESTS(
         tests
         TEST_PREFIX
-        "unittests."
+        unittests.
         REPORTER
-        "JUnit"
+        JUnit
         OUTPUT_DIR
         .
         OUTPUT_PREFIX
-        "unittests."
+        unittests.
         OUTPUT_SUFFIX
         .xml)

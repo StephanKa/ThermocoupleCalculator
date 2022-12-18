@@ -30,25 +30,25 @@ TEST_CASE("TypeT - Negative Voltage To Temperature = -3.9mV")
     REQUIRE_THAT(Thermocouple::calculate<TypeT>(VOLTAGE), Catch::Matchers::WithinRel(-119.1, EPSILON));
 }
 
-TEST_CASE("TypeT - Positive Temperature To Voltage = 249.76°C")
+TEST_CASE("TypeT - Positive Temperature To Voltage = 249.76Degrees")
 {
     const auto TEMP = 249.76_Temp;
     REQUIRE_THAT(Thermocouple::calculate<TypeT>(TEMP), Catch::Matchers::WithinRel(12.0, EPSILON));
 }
 
-TEST_CASE("TypeT - Positive Temperature To Voltage = 302.375°C")
+TEST_CASE("TypeT - Positive Temperature To Voltage = 302.375Degrees")
 {
     const auto TEMP = 302.375_Temp;
     REQUIRE_THAT(Thermocouple::calculate<TypeT>(TEMP), Catch::Matchers::WithinRel(15.0, EPSILON));
 }
 
-TEST_CASE("TypeT - Positive Temperature To Voltage = -87.008°C")
+TEST_CASE("TypeT - Positive Temperature To Voltage = -87.008Degrees")
 {
     const auto TEMP = Temperature{-87.008};
     REQUIRE_THAT(Thermocouple::calculate<TypeT>(TEMP), Catch::Matchers::WithinRel(-3.0, EPSILON));
 }
 
-TEST_CASE("TypeT - Positive Temperature To Voltage = -26.649°C")
+TEST_CASE("TypeT - Positive Temperature To Voltage = -26.649Degrees")
 {
     const auto TEMP = Temperature{-26.649};
     REQUIRE_THAT(Thermocouple::calculate<TypeT>(TEMP), Catch::Matchers::WithinRel(-1, EPSILON));
