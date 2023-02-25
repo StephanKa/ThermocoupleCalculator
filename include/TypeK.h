@@ -44,7 +44,7 @@ struct TypeK
             // clang-format on
         };
 
-        constexpr static double calculate(const Temperature& degrees)
+        consteval static double calculate(const Temperature& degrees)
         {
             double voltage = 0.0;
             if (degrees() >= Negative::LIMITS.LOWER && degrees() <= Negative::LIMITS.UPPER)
@@ -56,9 +56,10 @@ struct TypeK
                 voltage = Positive::COEFFICIENT[0];
                 for (size_t index = 1; index < Positive::COEFFICIENT.size(); index++)
                 {
-                    voltage += Positive::COEFFICIENT.at(index) * std::pow(degrees(), static_cast<double>(index));
+                    voltage += Positive::COEFFICIENT.at(index) * Helper::Math::pow(degrees(), static_cast<int>(index));
                 }
-                voltage += Positive::ALPHA_COEFFICIENT.at(0) * std::exp(Positive::ALPHA_COEFFICIENT.at(1) * std::pow(degrees() - Positive::ALPHA_COEFFICIENT.at(2), 2));
+                voltage +=
+                    Positive::ALPHA_COEFFICIENT.at(0) * Helper::Math::exp(Positive::ALPHA_COEFFICIENT.at(1) * Helper::Math::pow(degrees() - Positive::ALPHA_COEFFICIENT.at(2), 2));
             }
             return voltage;
         }

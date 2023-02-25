@@ -75,7 +75,7 @@ jobs:
         shell: bash
         run: |
           python3 -m pip install --upgrade pip setuptools
-          python3 -m pip install conan
+          python3 -m pip install conan==1.58
 
       - name: Configure CMake
         # Use a bash shell so we can use the same syntax for environment variable

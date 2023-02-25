@@ -19,7 +19,7 @@ struct TypeB
                                                     0.629903470940E-18};
         // clang-format on
 
-        static constexpr auto calculate(const auto& degrees) -> double
+        static consteval auto calculate(const auto& degrees) -> double
         {
             if (degrees() >= LIMITS.LOWER && degrees() <= LIMITS.UPPER)
             {
@@ -46,7 +46,7 @@ struct TypeB
                                                    -2.4742860E+00};
         // clang-format on
 
-        static constexpr auto calculate(const auto& voltage) -> double
+        static consteval auto calculate(const auto& voltage) -> double
         {
             if (voltage() >= LIMITS.LOWER && voltage() <= LIMITS.UPPER)
             {

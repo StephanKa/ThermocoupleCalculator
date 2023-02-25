@@ -17,9 +17,8 @@ struct Result
     using Type = T;
     ValueType value;
 
-    auto getValue() const noexcept { return value; }
-
-    auto getName() const noexcept { return Type::NAME; }
+    consteval auto getValue() const noexcept { return value; }
+    consteval auto getName() const noexcept { return Type::NAME; }
 };
 
 template<class T, class>
@@ -28,7 +27,7 @@ using hook = T;
 
 namespace Internal {
 template<Helper::Conversion Target, typename T>
-constexpr auto calculate(const auto& value)
+consteval auto calculate(const auto& value)
 {
     if constexpr (std::is_same_v<T, TypeB> && (Target == Helper::Conversion::Temp))
     {
@@ -52,7 +51,7 @@ constexpr auto calculate(const auto& value)
 }
 
 template<typename T, Helper::Conversion ConversionTarget, size_t SIZE>
-constexpr auto conversion(const std::array<double, SIZE>& values)
+consteval auto conversion(const std::array<double, SIZE>& values)
 {
     decltype(values) result;
     size_t index = 0;
@@ -64,12 +63,12 @@ constexpr auto conversion(const std::array<double, SIZE>& values)
 }
 
 template<Helper::Conversion Target, typename... T>
-constexpr auto calculation(const auto& value)
+consteval auto calculation(const auto& value)
 {
     if constexpr (sizeof...(T) > 1)
     {
         std::tuple<Thermocouple::hook<Thermocouple::Result<T, double>, T>...> result;
-        std::apply([&](auto&... xs) { ((xs.value = Internal::calculate<Target, T>(value)), ...); }, result);
+        // std::apply([&](auto&... xs) { ((xs.value = Internal::calculate<Target, T>(value)), ...); }, result);
         return result;
     }
     else
@@ -81,13 +80,13 @@ constexpr auto calculation(const auto& value)
 }  // namespace Internal
 
 namespace UnitLiterals {
-constexpr auto operator""_Temp(long double d) { return Temperature{static_cast<Temperature::Type>(d)}; }
-constexpr auto operator""_mV(long double d) { return Voltage{static_cast<Voltage::Type>(d)}; }
+consteval auto operator""_Temp(long double d) { return Temperature{static_cast<Temperature::Type>(d)}; }
+consteval auto operator""_mV(long double d) { return Voltage{static_cast<Voltage::Type>(d)}; }
 }  // namespace UnitLiterals
 
 namespace Thermocouple {
 template<typename... T>
-constexpr auto calculate(const auto& value)
+consteval auto calculate(const auto& value)
 {
     static_assert(sizeof...(T) > 0, "Please give an type as template parameter.");
     if constexpr (std::is_same_v<std::remove_cvref_t<decltype(value)>, Temperature>)

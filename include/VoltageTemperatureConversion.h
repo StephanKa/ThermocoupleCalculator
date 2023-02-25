@@ -15,23 +15,29 @@ class NamedType
 public:
     using Type = T;
     NamedType() = default;
-    constexpr explicit NamedType(const T& value) : m_value(value) {}
-    constexpr explicit NamedType(T&& value) : m_value(std::move(value)) {}
+    consteval explicit NamedType(const T& value) : m_value(value) {}
+    consteval explicit NamedType(T&& value) : m_value(std::move(value)) {}
 
-    constexpr NamedType& operator=(T value)
+    consteval NamedType& operator=(T value)
     {
         m_value = value;
         return *this;
     }
-    constexpr T operator()() const { return m_value; }
+    consteval T operator()() const { return m_value; }
 
 private:
     const T m_value{};
 };
 
 namespace Math {
-constexpr double pow(double x, int y) { return y == 0 ? 1.0 : x * pow(x, y - 1); }
-constexpr int factorial(int x) { return x == 0 ? 1 : x * factorial(x - 1); }
+consteval double pow(double x, int y) { return y == 0 ? 1.0 : x * pow(x, y - 1); }
+consteval int factorial(int x) { return x == 0 ? 1 : x * factorial(x - 1); }
+
+consteval double exp(double x)
+{
+    return 1.0 + x + pow(x, 2) / factorial(2) + pow(x, 3) / factorial(3) + pow(x, 4) / factorial(4) + pow(x, 5) / factorial(5) + pow(x, 6) / factorial(6) + pow(x, 7) / factorial(7)
+           + pow(x, 8) / factorial(8) + pow(x, 9) / factorial(9);
+}
 }  // namespace Math
 
 }  // namespace Helper
@@ -53,7 +59,7 @@ struct Limits
 };
 
 template<typename T, Helper::Conversion TargetConversion>
-constexpr auto calculation(const T& coefficient, const auto& value)
+consteval auto calculation(const T& coefficient, const auto& value)
 {
     double result = 0.0;
     size_t index = 0;
@@ -70,7 +76,7 @@ constexpr auto calculation(const T& coefficient, const auto& value)
 }
 
 template<class Positive, class Negative, Helper::Conversion Type>
-constexpr auto conversion(const auto& value)
+consteval auto conversion(const auto& value)
 {
     if (value() >= Negative::LIMITS.LOWER && value() <= Negative::LIMITS.UPPER)
     {
