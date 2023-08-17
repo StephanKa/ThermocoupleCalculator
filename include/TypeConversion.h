@@ -27,7 +27,7 @@ using hook = T;
 
 namespace Internal {
 template<Helper::Conversion Target, typename T>
-consteval auto calculate(const auto& value)
+constexpr auto calculate(const auto& value)
 {
     if constexpr (std::is_same_v<T, TypeB> && (Target == Helper::Conversion::Temp))
     {
@@ -51,7 +51,7 @@ consteval auto calculate(const auto& value)
 }
 
 template<typename T, Helper::Conversion ConversionTarget, size_t SIZE>
-consteval auto conversion(const std::array<double, SIZE>& values)
+constexpr auto conversion(const std::array<double, SIZE>& values)
 {
     decltype(values) result;
     size_t index = 0;
@@ -63,12 +63,12 @@ consteval auto conversion(const std::array<double, SIZE>& values)
 }
 
 template<Helper::Conversion Target, typename... T>
-consteval auto calculation(const auto& value)
+constexpr auto calculation(const auto& value)
 {
     if constexpr (sizeof...(T) > 1)
     {
         std::tuple<Thermocouple::hook<Thermocouple::Result<T, double>, T>...> result;
-        // std::apply([&](auto&... xs) { ((xs.value = Internal::calculate<Target, T>(value)), ...); }, result);
+        std::apply([&](auto&... xs) { ((xs.value = Internal::calculate<Target, T>(value)), ...); }, result);
         return result;
     }
     else
@@ -86,7 +86,7 @@ consteval auto operator""_mV(long double d) { return Voltage{static_cast<Voltage
 
 namespace Thermocouple {
 template<typename... T>
-consteval auto calculate(const auto& value)
+constexpr auto calculate(const auto& value)
 {
     static_assert(sizeof...(T) > 0, "Please give an type as template parameter.");
     if constexpr (std::is_same_v<std::remove_cvref_t<decltype(value)>, Temperature>)

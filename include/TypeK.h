@@ -44,7 +44,7 @@ struct TypeK
             // clang-format on
         };
 
-        consteval static double calculate(const Temperature& degrees)
+        constexpr static double calculate(const Temperature& degrees)
         {
             double voltage = 0.0;
             if (degrees() >= Negative::LIMITS.LOWER && degrees() <= Negative::LIMITS.UPPER)
