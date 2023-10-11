@@ -5,7 +5,7 @@
 
 namespace {
 using namespace UnitLiterals;
-constexpr auto MILLI_VOLT = 4.096_mV;  // 100 °C by TypeK
+constexpr auto MILLI_VOLT = 4.096_mV;// 100 °C by TypeK
 
 struct Result
 {
@@ -13,12 +13,12 @@ struct Result
     std::string_view name;
 };
 
-}  // namespace
+}// namespace
 
 template<typename Tuple>
-constexpr auto convertTupleToArray(Tuple&& t)
+[[nodiscard]] constexpr auto convertTupleToArray(Tuple &&t)
 {
-    return std::apply([](auto... n) { return std::array{Result{n.value, n.getName()}...}; }, t);
+    return std::apply([](auto... n) { return std::array{ Result{ n.value, n.getName() }... }; }, t);
 }
 
 int main()
@@ -27,11 +27,10 @@ int main()
 
     // only one type given
     constexpr auto TEMP = Thermocouple::calculate<TypeK>(MILLI_VOLT);
-    fmt::print("Temperature: {0:.2f} °C\nVoltage: {1:.2f} mV\n", TEMP, Thermocouple::calculate<TypeK>(Temperature{TEMP}));
+    fmt::print("Temperature: {0:.2f} °C\nVoltage: {1:.2f} mV\n", TEMP, Thermocouple::calculate<TypeK>(Temperature{ TEMP }));
 
     constexpr auto TEMPERATURES = Thermocouple::calculate<TypeK, TypeT, TypeB, TypeE, TypeJ, TypeN, TypeR, TypeS>(MILLI_VOLT);
-    for (const auto& temp : convertTupleToArray(TEMPERATURES))
-    {
+    for (const auto &temp : convertTupleToArray(TEMPERATURES)) {
         fmt::print("{1} Temperature: {0:.2f} °C\n", temp.value, temp.name);
     }
 

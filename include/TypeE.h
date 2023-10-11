@@ -10,7 +10,7 @@ struct TypeE
     {
         struct Positive
         {
-            static constexpr Limits LIMITS{0.0, 1000.0};
+            static constexpr Limits LIMITS{ 0.0, 1000.0 };
             // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000E+00,
                                                        0.586655087100E-01,
@@ -28,7 +28,7 @@ struct TypeE
 
         struct Negative
         {
-            static constexpr Limits LIMITS{-270.0, 0.0};
+            static constexpr Limits LIMITS{ -270.0, 0.0 };
             // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000E+00,
                                                        0.586655087080E-01,
@@ -52,7 +52,7 @@ struct TypeE
     {
         struct Negative
         {
-            static constexpr Limits LIMITS{-200.0, 0.0};
+            static constexpr Limits LIMITS{ -200.0, 0.0 };
             static constexpr double RANGE = 0.03;
             static constexpr double ERROR = -0.01;
             // clang-format off
@@ -71,7 +71,7 @@ struct TypeE
 
         struct Positive
         {
-            static constexpr Limits LIMITS{0.0, 1000.0};
+            static constexpr Limits LIMITS{ 0.0, 1000.0 };
             static constexpr double RANGE = 0.02;
             static constexpr double ERROR = -0.02;
             // clang-format off

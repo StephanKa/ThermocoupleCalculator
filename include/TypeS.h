@@ -10,7 +10,7 @@ struct TypeS
     {
         struct Positive
         {
-            static constexpr Limits LIMITS{1064.18, 1664.5};
+            static constexpr Limits LIMITS{ 1064.18, 1664.5 };
             // clang-format off
             static constexpr std::array COEFFICIENT = { 0.132900444085E+01,
                                                         0.334509311344E-02,
@@ -22,7 +22,7 @@ struct TypeS
 
         struct Negative
         {
-            static constexpr Limits LIMITS{-50.0, 1064.18};
+            static constexpr Limits LIMITS{ -50.0, 1064.18 };
             // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000E+00,
                                                        0.540313308631E-02,
@@ -41,7 +41,7 @@ struct TypeS
     {
         struct Negative
         {
-            static constexpr Limits LIMITS{-0.235, 1.874};
+            static constexpr Limits LIMITS{ -0.235, 1.874 };
             static constexpr double RANGE = 0.02;
             static constexpr double ERROR = -0.02;
             // clang-format off
@@ -60,7 +60,7 @@ struct TypeS
 
         struct Positive
         {
-            static constexpr Limits LIMITS{1.874, 11.950};
+            static constexpr Limits LIMITS{ 1.874, 11.950 };
             static constexpr double RANGE = 0.01;
             static constexpr double ERROR = -0.01;
             // clang-format off

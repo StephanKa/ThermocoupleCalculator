@@ -10,7 +10,7 @@ struct TypeJ
     {
         struct Positive
         {
-            static constexpr Limits LIMITS{760.0, 1200.0};
+            static constexpr Limits LIMITS{ 760.0, 1200.0 };
             // clang-format off
             static constexpr std::array COEFFICIENT = { 0.296456256810E+03,
                                                        -0.149761277860E+01,
@@ -23,7 +23,7 @@ struct TypeJ
 
         struct Negative
         {
-            static constexpr Limits LIMITS{-270.0, 760.0};
+            static constexpr Limits LIMITS{ -270.0, 760.0 };
             // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000E+00,
                                                        0.503811878150E-01,
@@ -42,7 +42,7 @@ struct TypeJ
     {
         struct Negative
         {
-            static constexpr Limits LIMITS{-8.095, 0.0};
+            static constexpr Limits LIMITS{ -8.095, 0.0 };
             static constexpr double RANGE = 0.03;
             static constexpr double ERROR = -0.05;
 
@@ -61,7 +61,7 @@ struct TypeJ
 
         struct Positive
         {
-            static constexpr Limits LIMITS{0.0, 42.91};
+            static constexpr Limits LIMITS{ 0.0, 42.91 };
             static constexpr double RANGE = 0.04;
             static constexpr double ERROR = -0.04;
             // clang-format off

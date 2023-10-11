@@ -10,7 +10,7 @@ struct TypeN
     {
         struct Positive
         {
-            static constexpr Limits LIMITS{0.0, 1300.0};
+            static constexpr Limits LIMITS{ 0.0, 1300.0 };
             // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000E+00,
                                                        0.259293946010E-01,
@@ -28,7 +28,7 @@ struct TypeN
 
         struct Negative
         {
-            static constexpr Limits LIMITS{-270.0, 0.0};
+            static constexpr Limits LIMITS{ -270.0, 0.0 };
             // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000E+00,
                                                        0.261591059620E-01,
@@ -47,7 +47,7 @@ struct TypeN
     {
         struct Negative
         {
-            static constexpr Limits LIMITS{-3.99, 0.0};
+            static constexpr Limits LIMITS{ -3.99, 0.0 };
             static constexpr double RANGE = 0.03;
             static constexpr double ERROR = -0.02;
             // clang-format off
@@ -66,7 +66,7 @@ struct TypeN
 
         struct Positive
         {
-            static constexpr Limits LIMITS{0.0, 20.613};
+            static constexpr Limits LIMITS{ 0.0, 20.613 };
             static constexpr double RANGE = 0.03;
             static constexpr double ERROR = -0.02;
             // clang-format off

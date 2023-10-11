@@ -10,7 +10,7 @@ struct TypeR
     {
         struct Positive
         {
-            static constexpr Limits LIMITS{1064.18, 1664.5};
+            static constexpr Limits LIMITS{ 1064.18, 1664.5 };
             // clang-format off
             static constexpr std::array COEFFICIENT = { 0.295157925316E+01,
                                                        -0.252061251332E-02,
@@ -23,7 +23,7 @@ struct TypeR
 
         struct Negative
         {
-            static constexpr Limits LIMITS{-50.0, 1064.18};
+            static constexpr Limits LIMITS{ -50.0, 1064.18 };
             // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000E+00,
                                                        0.528961729765E-02,
@@ -43,7 +43,7 @@ struct TypeR
     {
         struct Negative
         {
-            static constexpr Limits LIMITS{-0.226, 1.923};
+            static constexpr Limits LIMITS{ -0.226, 1.923 };
             static constexpr double RANGE = 0.02;
             static constexpr double ERROR = -0.02;
             // clang-format off
@@ -63,7 +63,7 @@ struct TypeR
 
         struct Positive
         {
-            static constexpr Limits LIMITS{1.923, 13.228};
+            static constexpr Limits LIMITS{ 1.923, 13.228 };
             static constexpr double RANGE = 0.005;
             static constexpr double ERROR = -0.005;
             // clang-format off

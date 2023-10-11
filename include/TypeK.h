@@ -10,7 +10,7 @@ struct TypeK
     {
         struct Positive
         {
-            static constexpr Limits LIMITS{0.0, 1372.0};
+            static constexpr Limits LIMITS{ 0.0, 1372.0 };
             // clang-format off
             static constexpr std::array COEFFICIENT = {-0.176004136860e-01,
                                                        0.389212049750e-01,
@@ -28,7 +28,7 @@ struct TypeK
 
         struct Negative
         {
-            static constexpr Limits LIMITS{-270.0, 0.0};
+            static constexpr Limits LIMITS{ -270.0, 0.0 };
             // clang-format off
             static constexpr std::array COEFFICIENT = {0.000000000000e+00,
                                                        0.394501280250e-01,
@@ -44,22 +44,18 @@ struct TypeK
             // clang-format on
         };
 
-        constexpr static double calculate(const Temperature& degrees)
+        [[nodiscard]] constexpr static double calculate(const Temperature &degrees)
         {
             double voltage = 0.0;
-            if (degrees() >= Negative::LIMITS.LOWER && degrees() <= Negative::LIMITS.UPPER)
-            {
+            if (degrees() >= Negative::LIMITS.LOWER && degrees() <= Negative::LIMITS.UPPER) {
                 voltage = calculation<decltype(Negative::COEFFICIENT), Helper::Conversion::Volt>(Negative::COEFFICIENT, degrees);
-            }
-            else if (degrees() >= Positive::LIMITS.LOWER && degrees() <= Positive::LIMITS.UPPER)
-            {
+            } else if (degrees() >= Positive::LIMITS.LOWER && degrees() <= Positive::LIMITS.UPPER) {
                 voltage = Positive::COEFFICIENT[0];
-                for (size_t index = 1; index < Positive::COEFFICIENT.size(); index++)
-                {
+                for (size_t index = 1; index < Positive::COEFFICIENT.size(); index++) {
                     voltage += Positive::COEFFICIENT.at(index) * Helper::Math::pow(degrees(), static_cast<int>(index));
                 }
                 voltage +=
-                    Positive::ALPHA_COEFFICIENT.at(0) * Helper::Math::exp(Positive::ALPHA_COEFFICIENT.at(1) * Helper::Math::pow(degrees() - Positive::ALPHA_COEFFICIENT.at(2), 2));
+                  Positive::ALPHA_COEFFICIENT.at(0) * Helper::Math::exp(Positive::ALPHA_COEFFICIENT.at(1) * Helper::Math::pow(degrees() - Positive::ALPHA_COEFFICIENT.at(2), 2));
             }
             return voltage;
         }
@@ -69,7 +65,7 @@ struct TypeK
     {
         struct Negative
         {
-            static constexpr Limits LIMITS{-5.891, 0.0};
+            static constexpr Limits LIMITS{ -5.891, 0.0 };
             static constexpr double RANGE = 0.04;
             static constexpr double ERROR = -0.02;
             // clang-format off
@@ -88,7 +84,7 @@ struct TypeK
 
         struct Positive
         {
-            static constexpr Limits LIMITS{0.0, 20.644};
+            static constexpr Limits LIMITS{ 0.0, 20.644 };
             static constexpr double RANGE = 0.04;
             static constexpr double ERROR = -0.05;
             // clang-format off

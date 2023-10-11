@@ -17,85 +17,82 @@ struct Result
     using Type = T;
     ValueType value;
 
-    consteval auto getValue() const noexcept { return value; }
-    consteval auto getName() const noexcept { return Type::NAME; }
+    consteval auto getValue() const noexcept
+    {
+        return value;
+    }
+    consteval auto getName() const noexcept
+    {
+        return Type::NAME;
+    }
 };
 
 template<class T, class>
 using hook = T;
-}  // namespace Thermocouple
+}// namespace Thermocouple
 
 namespace Internal {
 template<Helper::Conversion Target, typename T>
-constexpr auto calculate(const auto& value)
+[[nodiscard]] constexpr auto calculate(const auto &value)
 {
-    if constexpr (std::is_same_v<T, TypeB> && (Target == Helper::Conversion::Temp))
-    {
+    if constexpr (std::is_same_v<T, TypeB> && (Target == Helper::Conversion::Temp)) {
         return T::VoltageToTemperature::calculate(value);
-    }
-    else if constexpr ((std::is_same_v<T, TypeK> || std::is_same_v<T, TypeB>) &&(Target == Helper::Conversion::Volt))
-    {
+    } else if constexpr ((std::is_same_v<T, TypeK> || std::is_same_v<T, TypeB>)&&(Target == Helper::Conversion::Volt)) {
         return T::TemperatureToVoltage::calculate(value);
-    }
-    else
-    {
-        if constexpr (Target == Helper::Conversion::Temp)
-        {
+    } else {
+        if constexpr (Target == Helper::Conversion::Temp) {
             return conversion<typename T::VoltageToTemperature::Positive, typename T::VoltageToTemperature::Negative, Target>(value);
-        }
-        else
-        {
+        } else {
             return conversion<typename T::TemperatureToVoltage::Positive, typename T::TemperatureToVoltage::Negative, Target>(value);
         }
     }
 }
 
 template<typename T, Helper::Conversion ConversionTarget, size_t SIZE>
-constexpr auto conversion(const std::array<double, SIZE>& values)
+[[nodiscard]] constexpr auto conversion(const std::array<double, SIZE> &values)
 {
     decltype(values) result;
     size_t index = 0;
-    for (const auto& val : values, ++index)
-    {
+    for (const auto &val : values, ++index) {
         result[index] = calculate<T, ConversionTarget>(val);
     }
     return result;
 }
 
 template<Helper::Conversion Target, typename... T>
-constexpr auto calculation(const auto& value)
+[[nodiscard]] constexpr auto calculation(const auto &value)
 {
-    if constexpr (sizeof...(T) > 1)
-    {
+    if constexpr (sizeof...(T) > 1) {
         std::tuple<Thermocouple::hook<Thermocouple::Result<T, double>, T>...> result;
-        std::apply([&](auto&... xs) { ((xs.value = Internal::calculate<Target, T>(value)), ...); }, result);
+        std::apply([&](auto &...xs) { ((xs.value = Internal::calculate<Target, T>(value)), ...); }, result);
         return result;
-    }
-    else
-    {
+    } else {
         // we know here that only one type is given
         return Internal::calculate<Target, std::tuple_element_t<0, std::tuple<T...>>>(value);
     }
 }
-}  // namespace Internal
+}// namespace Internal
 
 namespace UnitLiterals {
-consteval auto operator""_Temp(long double d) { return Temperature{static_cast<Temperature::Type>(d)}; }
-consteval auto operator""_mV(long double d) { return Voltage{static_cast<Voltage::Type>(d)}; }
-}  // namespace UnitLiterals
+consteval auto operator""_Temp(long double d)
+{
+    return Temperature{ static_cast<Temperature::Type>(d) };
+}
+consteval auto operator""_mV(long double d)
+{
+    return Voltage{ static_cast<Voltage::Type>(d) };
+}
+}// namespace UnitLiterals
 
 namespace Thermocouple {
 template<typename... T>
-constexpr auto calculate(const auto& value)
+[[nodiscard]] constexpr auto calculate(const auto &value)
 {
     static_assert(sizeof...(T) > 0, "Please give an type as template parameter.");
-    if constexpr (std::is_same_v<std::remove_cvref_t<decltype(value)>, Temperature>)
-    {
+    if constexpr (std::is_same_v<std::remove_cvref_t<decltype(value)>, Temperature>) {
         return Internal::calculation<Helper::Conversion::Volt, T...>(value);
-    }
-    else
-    {
+    } else {
         return Internal::calculation<Helper::Conversion::Temp, T...>(value);
     }
 }
-}  // namespace Thermocouple
+}// namespace Thermocouple

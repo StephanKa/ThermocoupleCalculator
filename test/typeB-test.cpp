@@ -5,7 +5,10 @@ using namespace UnitLiterals;
 constexpr double EPSILON = 0.1;
 using ThermocoupleType = TypeB;
 
-TEST_CASE("TypeB - Name test") { CHECK("TypeB" == ThermocoupleType::NAME); }
+TEST_CASE("TypeB - Name test")
+{
+    CHECK("TypeB" == ThermocoupleType::NAME);
+}
 
 TEST_CASE("TypeB - Positive Voltage To Temperature = 0.5mV")
 {

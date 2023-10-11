@@ -5,7 +5,10 @@ using namespace UnitLiterals;
 constexpr double EPSILON = 0.1;
 using ThermocoupleType = TypeR;
 
-TEST_CASE("TypeR - Name test") { CHECK("TypeR" == ThermocoupleType::NAME); }
+TEST_CASE("TypeR - Name test")
+{
+    CHECK("TypeR" == ThermocoupleType::NAME);
+}
 
 TEST_CASE("TypeR - Positive Voltage To Temperature = 4.096mV")
 {
@@ -23,7 +26,7 @@ TEST_CASE("TypeR - Positive Voltage To Temperature = 10.0mV")
 
 TEST_CASE("TypeR - Negative Voltage To Temperature = -0.1mV")
 {
-    constexpr auto VOLTAGE = Voltage{-0.1};
+    constexpr auto VOLTAGE = Voltage{ -0.1 };
     constexpr auto RESULT = Thermocouple::calculate<ThermocoupleType>(VOLTAGE);
     REQUIRE_THAT(RESULT, Catch::Matchers::WithinRel(-19.994, EPSILON));
 }
