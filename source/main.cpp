@@ -18,7 +18,7 @@ struct Result
 template<typename Tuple>
 [[nodiscard]] constexpr auto convertTupleToArray(Tuple &&t)
 {
-    return std::apply([](auto... n) { return std::array{ Result{ n.value, n.getName() }... }; }, t);
+    return std::apply([](auto... n) { return std::array{ Result{ .value=n.value, .name=n.getName() }... }; }, t);
 }
 
 int main()
