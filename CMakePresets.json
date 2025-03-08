@@ -195,6 +195,42 @@
       }
     },
     {
+      "name": "gcc-13-debug",
+      "inherits": "debug-base",
+      "displayName": "Preset for gcc debug builds",
+      "environment": {
+        "CXX": "g++-13",
+        "CC": "gcc-13"
+      }
+    },
+    {
+      "name": "gcc-13-release",
+      "inherits": "release-base",
+      "displayName": "Preset for gcc release builds",
+      "environment": {
+        "CXX": "g++-13",
+        "CC": "gcc-13"
+      }
+    },
+    {
+      "name": "gcc-14-debug",
+      "inherits": "debug-base",
+      "displayName": "Preset for gcc debug builds",
+      "environment": {
+        "CXX": "g++-14",
+        "CC": "gcc-14"
+      }
+    },
+    {
+      "name": "gcc-14-release",
+      "inherits": "release-base",
+      "displayName": "Preset for gcc release builds",
+      "environment": {
+        "CXX": "g++-14",
+        "CC": "gcc-14"
+      }
+    },
+    {
       "name": "windows-2019-debug",
       "displayName": "Windows x64 Debug",
       "generator": "Visual Studio 16 2019",
@@ -397,6 +433,22 @@
       "configurePreset": "gcc-12-release"
     },
     {
+      "name": "gcc-13-debug",
+      "configurePreset": "gcc-13-debug"
+    },
+    {
+      "name": "gcc-13-release",
+      "configurePreset": "gcc-13-release"
+    },
+    {
+      "name": "gcc-14-debug",
+      "configurePreset": "gcc-14-debug"
+    },
+    {
+      "name": "gcc-14-release",
+      "configurePreset": "gcc-14-release"
+    },
+    {
       "name": "windows-2019-debug",
       "configurePreset": "windows-2019-debug"
     },
@@ -505,6 +557,22 @@
     {
       "name": "gcc-12-release",
       "configurePreset": "gcc-12-release"
+    },
+    {
+      "name": "gcc-13-debug",
+      "configurePreset": "gcc-13-debug"
+    },
+    {
+      "name": "gcc-13-release",
+      "configurePreset": "gcc-13-release"
+    },
+    {
+      "name": "gcc-14-debug",
+      "configurePreset": "gcc-14-debug"
+    },
+    {
+      "name": "gcc-14-release",
+      "configurePreset": "gcc-14-release"
     },
     {
       "name": "windows-2019-debug",

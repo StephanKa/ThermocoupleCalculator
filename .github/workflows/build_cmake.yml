@@ -36,8 +36,6 @@ jobs:
                     {name: 'GCC 12', preset: gcc-12, pkgs: 'gcc-12 g++-12 lib32gcc-12-dev gcc-multilib'},
                     {name: 'GCC 13', preset: gcc-13, pkgs: 'gcc-13 g++-13 lib32gcc-13-dev gcc-multilib'},
                     {name: 'GCC 14', preset: gcc-14, pkgs: 'gcc-14 g++-14 lib32gcc-14-dev gcc-multilib'},
-                    {name: 'Clang 15', preset: clang-15, version: '15'},
-                    {name: 'Clang 16', preset: clang-16, version: '16'},
                     {name: 'Clang 17', preset: clang-17, version: '17'},
                     {name: 'Clang 18', preset: clang-18, version: '18'},
                     {name: 'Clang 19', preset: clang-19, version: '19'}
