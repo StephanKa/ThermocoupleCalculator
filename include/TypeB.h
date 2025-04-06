@@ -19,12 +19,12 @@ struct TypeB
                                                     0.629903470940E-18};
         // clang-format on
 
-        [[nodiscard]] static constexpr auto calculate(const auto &degrees) -> double
+        [[nodiscard]] static constexpr auto calculate(const auto &degrees)
         {
             if (degrees() >= LIMITS.LOWER && degrees() <= LIMITS.UPPER) {
                 return calculation<decltype(COEFFICIENT), Helper::Conversion::Volt>(COEFFICIENT, degrees);
             }
-            return 0.0;
+            return std::numeric_limits<double>::max();
         }
     };
 
@@ -45,12 +45,12 @@ struct TypeB
                                                    -2.4742860E+00};
         // clang-format on
 
-        [[nodiscard]] static constexpr auto calculate(const auto &voltage) -> double
+        [[nodiscard]] static constexpr auto calculate(const auto &voltage)
         {
             if (voltage() >= LIMITS.LOWER && voltage() <= LIMITS.UPPER) {
                 return calculation<decltype(COEFFICIENT), Helper::Conversion::Temp>(COEFFICIENT, voltage);
             }
-            return 0.0;
+            return std::numeric_limits<double>::max();
         }
     };
 };

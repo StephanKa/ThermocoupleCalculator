@@ -2,62 +2,73 @@
 #include <cmath>
 #include <string_view>
 
-namespace Helper {
-enum class Conversion
+namespace Helper
 {
-    Volt,
-    Temp
-};
+    enum class Conversion
+    {
+        Volt,
+        Temp
+    };
 
-template<typename T>
-class NamedType
-{
-  public:
-    using Type = T;
-    NamedType() = default;
+    template <typename T>
+    class NamedType
+    {
+    public:
+        using Type = T;
+        constexpr NamedType() = default;
 #if defined(__GNUC__) || defined(__GNUG__)// WORKAROUND for GCC bug https://gcc.gnu.org/bugzilla/show_bug.cgi?id=104490
-    constexpr explicit NamedType(const T &value) : m_value(value)
-    {}
-    constexpr explicit NamedType(T &&value) : m_value(std::move(value))
-    {}
+        constexpr explicit NamedType(const T& value) : m_value(value)
+        {
+        }
+
+        constexpr explicit NamedType(T&& value) : m_value(std::move(value))
+        {
+        }
 #else
     consteval explicit NamedType(const T &value) : m_value(value)
     {}
     consteval explicit NamedType(T &&value) : m_value(std::move(value))
     {}
 #endif
-    consteval NamedType &operator=(T value)
-    {
-        m_value = value;
-        return *this;
-    }
-    constexpr T operator()() const
-    {
-        return m_value;
-    }
+        consteval NamedType& operator=(T value)
+        {
+            m_value = value;
+            return *this;
+        }
 
-  private:
-    const T m_value{};
-};
+        constexpr T operator()() const
+        {
+            return m_value;
+        }
 
-namespace Math {
-    [[nodiscard]] constexpr double pow(double x, int y)
-    {
-        return y == 0 ? 1.0 : x * pow(x, y - 1);
-    }
-    [[nodiscard]] constexpr int factorial(int x)
-    {
-        return x == 0 ? 1 : x * factorial(x - 1);
-    }
+    private:
+        const T m_value{};
+    };
 
-    [[nodiscard]] constexpr double exp(double x)
+    namespace Math
     {
-        return 1.0 + x + pow(x, 2) / factorial(2) + pow(x, 3) / factorial(3) + pow(x, 4) / factorial(4) + pow(x, 5) / factorial(5) + pow(x, 6) / factorial(6)
-               + pow(x, 7) / factorial(7) + pow(x, 8) / factorial(8) + pow(x, 9) / factorial(9);
-    }
-}// namespace Math
+        [[nodiscard]] constexpr double pow(double x, int y)
+        {
+            return y == 0 ? 1.0 : x * pow(x, y - 1);
+        }
 
-}// namespace Helper
+        [[nodiscard]] constexpr int factorial(int x)
+        {
+            return x == 0 ? 1 : x * factorial(x - 1);
+        }
+
+        [[nodiscard]] constexpr double exp(double x)
+        {
+            constexpr int maxFactor = 10;
+            double val = 1.0 + x;
+            for (int i = 2; i < maxFactor; ++i)
+            {
+                val += pow(x, i) / factorial(i);
+            }
+            return val;
+        }
+    } // namespace Math
+} // namespace Helper
 
 struct Temperature : Helper::NamedType<double>
 {
@@ -75,29 +86,36 @@ struct Limits
     double UPPER;
 };
 
-template<typename T, Helper::Conversion TargetConversion>
-[[nodiscard]] constexpr auto calculation(const T &coefficient, const auto &value)
+template <typename T, Helper::Conversion TargetConversion>
+[[nodiscard]] constexpr auto calculation(const T& coefficient, const auto& value)
 {
     double result = 0.0;
     size_t index = 0;
-    if constexpr (TargetConversion == Helper::Conversion::Temp) {
-        result = coefficient[0];
+    if constexpr (TargetConversion == Helper::Conversion::Temp)
+    {
+        result = coefficient[index];
         index = 1;
     }
-    for (; index < coefficient.size(); index++) {
+    for (; index < coefficient.size(); index++)
+    {
         result += coefficient.at(index) * Helper::Math::pow(value(), static_cast<int>(index));
     }
     return result;
 }
 
-template<class Positive, class Negative, Helper::Conversion Type>
-[[nodiscard]] constexpr auto conversion(const auto &value)
+template <class TypeConversion, Helper::Conversion Type>
+[[nodiscard]] constexpr auto conversion(const auto& value)
 {
-    if (value() >= Negative::LIMITS.LOWER && value() <= Negative::LIMITS.UPPER) {
-        return calculation<decltype(Negative::COEFFICIENT), Type>(Negative::COEFFICIENT, value);
+    using NEGATIVE = typename TypeConversion::Negative;
+    using POSITIVE = typename TypeConversion::Positive;
+
+    if (value() >= NEGATIVE::LIMITS.LOWER && value() <= NEGATIVE::LIMITS.UPPER)
+    {
+        return calculation<decltype(NEGATIVE::COEFFICIENT), Type>(NEGATIVE::COEFFICIENT, value);
     }
-    if (value() >= Positive::LIMITS.LOWER && value() <= Positive::LIMITS.UPPER) {
-        return calculation<decltype(Positive::COEFFICIENT), Type>(Positive::COEFFICIENT, value);
+    if (value() >= POSITIVE::LIMITS.LOWER && value() <= POSITIVE::LIMITS.UPPER)
+    {
+        return calculation<decltype(POSITIVE::COEFFICIENT), Type>(POSITIVE::COEFFICIENT, value);
     }
     return std::numeric_limits<typename std::remove_cvref_t<decltype(value)>::Type>::max();
 }

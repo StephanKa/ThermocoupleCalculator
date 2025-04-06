@@ -44,20 +44,21 @@ struct TypeK
             // clang-format on
         };
 
-        [[nodiscard]] constexpr static double calculate(const Temperature &degrees)
-        {
-            double voltage = 0.0;
+        [[nodiscard]] constexpr static double calculate(const Temperature &degrees) {
+            using namespace Helper;
             if (degrees() >= Negative::LIMITS.LOWER && degrees() <= Negative::LIMITS.UPPER) {
-                voltage = calculation<decltype(Negative::COEFFICIENT), Helper::Conversion::Volt>(Negative::COEFFICIENT, degrees);
-            } else if (degrees() >= Positive::LIMITS.LOWER && degrees() <= Positive::LIMITS.UPPER) {
-                voltage = Positive::COEFFICIENT[0];
-                for (size_t index = 1; index < Positive::COEFFICIENT.size(); index++) {
-                    voltage += Positive::COEFFICIENT.at(index) * Helper::Math::pow(degrees(), static_cast<int>(index));
-                }
-                voltage +=
-                  Positive::ALPHA_COEFFICIENT.at(0) * Helper::Math::exp(Positive::ALPHA_COEFFICIENT.at(1) * Helper::Math::pow(degrees() - Positive::ALPHA_COEFFICIENT.at(2), 2));
+                return calculation<decltype(Negative::COEFFICIENT), Conversion::Volt>(Negative::COEFFICIENT, degrees);
             }
-            return voltage;
+            if ((degrees() >= Positive::LIMITS.LOWER) && (degrees() <= Positive::LIMITS.UPPER)) {
+                auto voltage = Positive::COEFFICIENT[0];
+                for (size_t index = 1; index < Positive::COEFFICIENT.size(); ++index) {
+                    voltage += Positive::COEFFICIENT.at(index) * Math::pow(degrees(), static_cast<int>(index));
+                }
+                voltage += Positive::ALPHA_COEFFICIENT.at(0) * Math::exp(Positive::ALPHA_COEFFICIENT.at(1) * Math::pow(
+                        degrees() - Positive::ALPHA_COEFFICIENT.at(2), 2));
+                return voltage;
+            }
+            return std::numeric_limits<double>::max();
         }
     };
 
